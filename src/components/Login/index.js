@@ -70,6 +70,8 @@ class Login extends Component {
       ? 'https://res.cloudinary.com/dazwjceuy/image/upload/v1722530869/eye-slash_siodyq.svg'
       : 'https://res.cloudinary.com/dazwjceuy/image/upload/v1722530779/eye_m5j2mu.svg'
 
+    // const labelText = showPassword ? 'text' : 'PASSWORD'
+
     const jwtToken = Cookies.get('jwt_token')
     if (jwtToken !== undefined) {
       return <Redirect to="/" />
@@ -107,6 +109,7 @@ class Login extends Component {
                 onClick={this.onClickEye}
                 type="button"
                 className="eyeBtn"
+                data-testid="show-password"
               >
                 <img className="eyeIcon" src={showIconUrl} alt="eye" />
               </button>

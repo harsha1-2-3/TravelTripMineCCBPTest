@@ -17,11 +17,9 @@ const Header = props => {
           <h1 className="headerLogo">Travel Trip </h1>
         </Link>
         <ul className="optionsUl">
-          <li className="optionLi">
-            <Link className="link optionLi" to="/">
-              Home
-            </Link>
-          </li>
+          <Link className="link optionLi" to="/">
+            <li className="optionLi">Home</li>
+          </Link>
           <li className="optionLi">
             <Link className="link optionLi" to="/my-trips">
               My Trips

@@ -11,14 +11,14 @@ const MyTrips = () => {
       <img
         className="emptyImg"
         src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434678/Vector_j2yqql.png"
-        alt="empty"
+        alt="np trips"
       />
-      <h1 className="emptyHead"> No Upcoming Trips </h1>
-      <p className="emptyPara">
-        When you book a trip, you will see your trip details here.
-      </p>
+      <h1 className="emptyHead"> No upcoming trips </h1>
+      <h1 className="emptyPara">
+        When you book a trip, you will see your trip details here{' '}
+      </h1>
       <Link className="link" to="/book-a-new-trip">
-        <button className="emptyBtn"> Book a New Trip </button>
+        <button className="emptyBtn"> Book a new trip </button>
       </Link>
     </div>
   )
