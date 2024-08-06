@@ -19,7 +19,9 @@ const Home = () => (
           destinations.
         </p>
         <Link className="link" to="/book-a-new-trip">
-          <button className="bookTripBtn"> Book a new trip </button>
+          <button type="button" className="bookTripBtn">
+            Book a new trip
+          </button>
         </Link>
       </div>
     </div>

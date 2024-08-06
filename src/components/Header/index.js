@@ -32,7 +32,7 @@ const Header = props => {
       </nav>
       {/* Space */}
       <nav className="headerSm">
-        <button className="homeBtn">
+        <button type="button" className="homeBtn">
           <Link className="link" to="/">
             <img
               className="homeIcon"
@@ -41,7 +41,7 @@ const Header = props => {
             />
           </Link>
         </button>
-        <button className="homeBtn">
+        <button type="button" className="homeBtn">
           <Link className="link" to="/my-trips">
             <img
               className="homeIcon"

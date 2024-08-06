@@ -5,7 +5,7 @@ import './index.css'
 const TripItem = props => {
   const {tripDetails} = props
 
-  const {id, cityName, startDate, endDate} = tripDetails
+  const {id, endLocation, startDate, endDate} = tripDetails
 
   return (
     <TripContext.Consumer>
@@ -18,7 +18,7 @@ const TripItem = props => {
 
         return (
           <li className="myTripLi">
-            <h1 className="destinationName"> {cityName} </h1>
+            <h1 className="destinationName"> {endLocation} </h1>
             <div className="dateCont">
               <h1 className="dateHead"> Date </h1>
               <p className="datePara">

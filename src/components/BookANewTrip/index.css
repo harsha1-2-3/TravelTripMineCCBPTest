@@ -263,7 +263,7 @@
 .bookTripLgDetailsCont {
   background-color: #304766;
   padding: 40px;
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   width: 60vw;
@@ -413,15 +413,33 @@
   height: 35px;
   width: 65px;
   align-self: flex-end;
+  margin-left: 15px;
 }
-
+.link {
+  text-decoration: none;
+}
 @media (min-width: 768px) {
+  .bookInputBox {
+    width: 100%;
+  }
   .bookTripBgLg {
     display: flex;
   }
 
   .bookTripBgSm {
     display: none;
+  }
+
+  .detailsForm {
+    display: none;
+  }
+
+  .detailsCont {
+    display: none;
+  }
+
+  .bookTripLgDetailsCont {
+    display: flex;
   }
 
   .bookTripLgHead {
@@ -434,7 +452,9 @@
 
   .bookBtnsCont {
     align-self: center;
+    justify-content: space-around;
+  }
+  .bookPrevBtn {
+    margin-right: 15px;
   }
 }
-
-/* My Trips */

@@ -1,699 +1,1087 @@
-// -------------- BookANewTrip.js --------------
 import {Component} from 'react'
-import {Link} from 'react-router-dom'
+import {v4 as uuidv4} from 'uuid'
 import Header from '../Header'
 import TripContext from '../../context/TripContext'
 import './index.css'
 
-class BookANewTrip extends Component {
-  state = {}
+const stepsList = [
+  {
+    stepId: 'YOUR_DETAILS',
+    displayText: 'Your Details',
+  },
+  {
+    stepId: 'DATE_SELECTION',
+    displayText: 'Date Selection',
+  },
+  {
+    stepId: 'GUESTS',
+    displayText: 'Guests',
+  },
+  {
+    stepId: 'TRAVEL_ASSISTANCE',
+    displayText: 'Travel Assistance',
+  },
+  {
+    stepId: 'CONFIRMATION',
+    displayText: 'Confirmation',
+  },
+]
 
-  render() {
+const travelAssistanceList = [
+  {
+    value: 'car',
+    displayText: 'Car',
+    id: 1,
+  },
+  {
+    value: 'flight',
+    displayText: 'Flight',
+    id: 2,
+  },
+  {
+    value: 'bus',
+    displayText: 'Bus',
+    id: 3,
+  },
+  {
+    value: 'train',
+    displayText: 'Train',
+    id: 4,
+  },
+]
+
+class BookANewTrip extends Component {
+  state = {
+    activeStepId: stepsList[0].stepId,
+    isFilled: '',
+    username: '',
+    startLocation: '',
+    endLocation: '',
+    startDate: '',
+    endDate: '',
+    adults: 1,
+    childrens: 0,
+    infants: 0,
+    needTravel: false,
+    activeTravel: 'car',
+    isConfirmed: false,
+    isLessDate: '',
+  }
+
+  onChangeName = event => {
+    this.setState({
+      username: event.target.value,
+    })
+  }
+
+  onChangeStartLocation = event => {
+    this.setState({
+      startLocation: event.target.value,
+    })
+  }
+
+  onChangeEndLocation = event => {
+    this.setState({
+      endLocation: event.target.value,
+    })
+  }
+
+  onChangeStartDate = event => {
+    this.setState({
+      startDate: event.target.value,
+    })
+  }
+
+  onChangeEndDate = event => {
+    this.setState({
+      endDate: event.target.value,
+    })
+  }
+
+  onAdultsPlus = () => {
+    this.setState(prevState => ({
+      adults: prevState.adults + 1,
+    }))
+  }
+
+  onAdultsMinus = () => {
+    const {adults} = this.state
+    if (adults <= 1) {
+      this.setState({
+        adults: 1,
+      })
+    } else {
+      this.setState(prevState => ({
+        adults: prevState.adults - 1,
+      }))
+    }
+  }
+
+  onChildrenPlus = () => {
+    this.setState(prevState => ({
+      childrens: prevState.childrens + 1,
+    }))
+  }
+
+  onChildrenMinus = () => {
+    const {childrens} = this.state
+    if (childrens === 0) {
+      this.setState({
+        childrens: 0,
+      })
+    } else {
+      this.setState(prevState => ({
+        childrens: prevState.childrens - 1,
+      }))
+    }
+  }
+
+  onInfantsPlus = () => {
+    this.setState(prevState => ({
+      infants: prevState.infants + 1,
+    }))
+  }
+
+  onInfantsMinus = () => {
+    const {infants} = this.state
+    if (infants <= 0) {
+      this.setState({
+        infants: 0,
+      })
+    } else {
+      this.setState(prevState => ({
+        infants: prevState.infants - 1,
+      }))
+    }
+  }
+
+  onCheckTravel = event => {
+    if (event.target.checked) {
+      this.setState({
+        needTravel: true,
+      })
+    }
+  }
+
+  onChangeTravel = event => {
+    this.setState({
+      activeTravel: event.target.value,
+    })
+  }
+
+  renderYourDetailsForm = () => {
+    const {username, startLocation, endLocation, isFilled} = this.state
+    const errorInputClass = isFilled === false ? 'bookInputIconContError' : ''
+    const nameFilled = isFilled === false ? 'Enter your name' : ''
+    const startLocationFilled =
+      isFilled === false ? 'Enter your start location' : ''
+    const endLocationFilled =
+      isFilled === false ? 'Enter your end location' : ''
+
     return (
       <>
-        <Header />
-
-        <div className="bookTripBgLg">
-          <div className="bookTripLg">
-            <ul className="bookTripSidebarUl">
-              <li className="bookTripSidebarLi">
-                <img
-                  className="tickIcon"
-                  src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
-                  alt="tick"
+        <div className="bookTripLgDetailsCont">
+          <h1 className="bookTripLgHead">Your Details</h1>
+          <p className="bookTripLgPara">Enter your name and location details</p>
+          <div className="detailsFormLg">
+            <div className="bookInputCont">
+              <label htmlFor="name" className="bookInputLabel">
+                Name
+              </label>
+              <div className={`bookInputIconCont ${errorInputClass}`}>
+                <input
+                  placeholder="Enter your name"
+                  id="name"
+                  className="bookInputBox"
+                  type="text"
+                  onChange={this.onChangeName}
+                  value={username}
                 />
-                <p className="numPara">Your Details</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <img
-                  className="tickIcon"
-                  src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
-                  alt="tick"
-                />
-                <p className="numPara">Date Section</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <img
-                  className="tickIcon"
-                  src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
-                  alt="tick"
-                />
-                <p className="numPara">Guests</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <img
-                  className="tickIcon"
-                  src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
-                  alt="tick"
-                />
-                <p className="numPara">Travel Assistance</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <img
-                  className="tickIcon"
-                  src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
-                  alt="tick"
-                />
-                <p className="numPara">Confirmation</p>
-              </li>
-            </ul>
-            <div className="bookTripLgDetailsCont">
-              <div className="detailsFormLg bookedCont">
-                <img
-                  className="bookedImg"
-                  src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
-                  alt="empty"
-                />
-                <h1 className="emptyHead">Awesome!</h1>
-                <p className="emptyPara">
-                  When your booking has been confirmed.
-                </p>
-                <button className="emptyBtn">Book a New Trip</button>
+                {isFilled === false ? (
+                  <img
+                    className="inputErrorIcon"
+                    src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722433458/info-circle_esho1i.svg"
+                    alt="input error"
+                  />
+                ) : null}
               </div>
+              <p className="bookErrorMsg">{nameFilled}</p>
+            </div>
+            <div className="bookInputCont">
+              <label htmlFor="start" className="bookInputLabel">
+                Start location
+              </label>
+              <div className={`bookInputIconCont ${errorInputClass}`}>
+                <input
+                  placeholder="Enter start location"
+                  id="start"
+                  className="bookInputBox"
+                  type="text"
+                  onChange={this.onChangeStartLocation}
+                  value={startLocation}
+                />
+                {isFilled === false ? (
+                  <img
+                    className="inputErrorIcon"
+                    src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722433458/info-circle_esho1i.svg"
+                    alt="input error"
+                  />
+                ) : null}
+              </div>
+              <p className="bookErrorMsg">{startLocationFilled}</p>
+            </div>
+            <div className="bookInputCont">
+              <label htmlFor="end" className="bookInputLabel">
+                End location
+              </label>
+              <div className={`bookInputIconCont ${errorInputClass}`}>
+                <input
+                  placeholder="Enter end location"
+                  id="end"
+                  className="bookInputBox"
+                  type="text"
+                  onChange={this.onChangeEndLocation}
+                  value={endLocation}
+                />
+                {isFilled === false ? (
+                  <img
+                    className="inputErrorIcon"
+                    src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722433458/info-circle_esho1i.svg"
+                    alt="input error"
+                  />
+                ) : null}
+              </div>
+              <p className="bookErrorMsg">{endLocationFilled}</p>
+            </div>
+            <button
+              onClick={this.onYourDetailsNext}
+              type="button"
+              className="bookLgNextBtn"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+
+        <div className="detailsCont">
+          <h1 className="detailsHead">Your Details</h1>
+          <p className="detailsPara">Enter your name and location details</p>
+          <div className="detailsForm">
+            <div className="bookInputCont">
+              <label htmlFor="name" className="bookInputLabel">
+                Name
+              </label>
+              <div className={`bookInputIconCont ${errorInputClass}`}>
+                <input
+                  placeholder="Enter your name"
+                  id="name"
+                  className="bookInputBox"
+                  type="text"
+                  onChange={this.onChangeName}
+                  value={username}
+                />
+                {isFilled === false ? (
+                  <img
+                    className="inputErrorIcon"
+                    src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722433458/info-circle_esho1i.svg"
+                    alt="input error"
+                  />
+                ) : null}
+              </div>
+              <p className="bookErrorMsg">{nameFilled}</p>
+            </div>
+            <div className="bookInputCont">
+              <label htmlFor="start" className="bookInputLabel">
+                Start location
+              </label>
+              <div className={`bookInputIconCont ${errorInputClass}`}>
+                <input
+                  placeholder="Enter start location"
+                  id="start"
+                  className="bookInputBox"
+                  type="text"
+                  onChange={this.onChangeStartLocation}
+                  value={startLocation}
+                />
+                {isFilled === false ? (
+                  <img
+                    className="inputErrorIcon"
+                    src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722433458/info-circle_esho1i.svg"
+                    alt="input error"
+                  />
+                ) : null}
+              </div>
+              <p className="bookErrorMsg">{startLocationFilled}</p>
+            </div>
+            <div className="bookInputCont">
+              <label htmlFor="end" className="bookInputLabel">
+                End location
+              </label>
+              <div className={`bookInputIconCont ${errorInputClass}`}>
+                <input
+                  placeholder="Enter end location"
+                  id="end"
+                  className="bookInputBox"
+                  type="text"
+                  onChange={this.onChangeEndLocation}
+                  value={endLocation}
+                />
+                {isFilled === false ? (
+                  <img
+                    className="inputErrorIcon"
+                    src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722433458/info-circle_esho1i.svg"
+                    alt="input error"
+                  />
+                ) : null}
+              </div>
+              <p className="bookErrorMsg">{endLocationFilled}</p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={this.onYourDetailsNext}
+            className="bookNextBtn"
+          >
+            Next
+          </button>
+        </div>
+      </>
+    )
+  }
+
+  onYourDetailsNext = () => {
+    const {username, startLocation, endLocation} = this.state
+    if (startLocation === '' || username === '' || endLocation === '') {
+      this.setState({
+        isFilled: false,
+      })
+    } else {
+      this.setState({
+        activeStepId: stepsList[1].stepId,
+      })
+    }
+  }
+
+  renderDateForm = () => {
+    const {isFilled, startDate, endDate, isLessDate} = this.state
+    const errorInputClass = isFilled === false ? 'bookInputIconContError' : ''
+    const startDateFilled = isFilled === false ? 'Select start date' : ''
+    const endDateFilled = isFilled === false ? 'Select end date' : ''
+
+    return (
+      <>
+        <div className="bookTripLgDetailsCont">
+          <h1 className="bookTripLgHead">Date Selection</h1>
+          <p className="bookTripLgPara">Enter your Start and End Date</p>
+          <div className="detailsFormLg">
+            <div className="bookInputCont">
+              <label htmlFor="name" className="bookInputLabel">
+                Start Date
+              </label>
+              <div className={`bookInputIconCont ${errorInputClass}`}>
+                <input
+                  placeholder="dd/mm/yyyy"
+                  id="name"
+                  className="bookInputBox"
+                  type="date"
+                  onChange={this.onChangeStartDate}
+                  value={startDate}
+                />
+              </div>
+              <p className="bookErrorMsg">{startDateFilled}</p>
+            </div>
+            <div className="bookInputCont">
+              <label htmlFor="start" className="bookInputLabel">
+                End Date
+              </label>
+              <div className={`bookInputIconCont ${errorInputClass}`}>
+                <input
+                  placeholder="dd/mm/yyyy"
+                  id="start"
+                  className="bookInputBox"
+                  type="date"
+                  onChange={this.onChangeEndDate}
+                  value={endDate}
+                />
+              </div>
+              <p className="bookErrorMsg">{endDateFilled}</p>
+              <p className="bookErrorMsg">{isLessDate}</p>
+            </div>
+            <div className="bookBtnsCont">
+              <button
+                type="button"
+                onClick={this.onDatePrev}
+                className="bookPrevBtn"
+              >
+                Previous
+              </button>
+              <button
+                type="button"
+                onClick={this.onDateNext}
+                className="bookNextBtn"
+              >
+                Next
+              </button>
             </div>
           </div>
         </div>
-        <div className="bookTripBgSm">
-          <ul className="smTabsUl">
-            <li className="smTabLi" />
-            <li className="smTabLi" />
-            <li className="smTabLi" />
-            <li className="smTabLi" />
-            <li className="smTabLi" />
-          </ul>
-          <div className="detailsForm bookedCont">
-            <img
-              className="bookedImg"
-              src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
-              alt="empty"
-            />
-            <h1 className="emptyHead">Awesome!</h1>
-            <p className="emptyPara">When your booking has been confirmed.</p>
-            <button className="emptyBtn">Book a New Trip</button>
-          </div>
-        </div>
 
-        <div className="bookTripBgLg">
-          <div className="bookTripLg">
-            <ul className="bookTripSidebarUl">
-              <li className="bookTripSidebarLi">
-                <img
-                  className="tickIcon"
-                  src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
-                  alt="tick"
+        <div className="detailsCont">
+          <h1 className="detailsHead">Date Selection</h1>
+          <p className="detailsPara">Select your start and end date.</p>
+          <div className="detailsForm">
+            <div className="bookInputCont">
+              <label htmlFor="start" className="bookInputLabel">
+                Start Date
+              </label>
+              <div className={`bookInputIconCont ${errorInputClass}`}>
+                <input
+                  placeholder="dd/mm/yyyy"
+                  id="start"
+                  className="bookInputBox"
+                  type="date"
+                  onChange={this.onChangeStartDate}
+                  value={startDate}
                 />
-                <p className="numPara">Your Details</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <img
-                  className="tickIcon"
-                  src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
-                  alt="tick"
-                />
-                <p className="numPara">Date Section</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <img
-                  className="tickIcon"
-                  src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
-                  alt="tick"
-                />
-                <p className="numPara">Guests</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <img
-                  className="tickIcon"
-                  src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
-                  alt="tick"
-                />
-                <p className="numPara">Travel Assistance</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <p className="numIcon numIconActive">5</p>
-                <p className="numPara numParaActive">Confirmation</p>
-              </li>
-            </ul>
-            <div className="bookTripLgDetailsCont">
-              <h1 className="bookTripLgHead">Confirmation</h1>
-              <p className="bookTripLgPara">Confirm Your Details</p>
-              <div className="detailsFormLg">
-                <ul className="confirmUl">
-                  <li className="confirmLi">
-                    <h1 className="confirmHead">Name:</h1>
-                    <p className="confirmPara">Harsha</p>
-                  </li>
-                  <li className="confirmLi">
-                    <h1 className="confirmHead">Start location:</h1>
-                    <p className="confirmPara">Proddatur</p>
-                  </li>
-                  <li className="confirmLi">
-                    <h1 className="confirmHead">End location:</h1>
-                    <p className="confirmPara">New York</p>
-                  </li>
-                  <li className="confirmLi">
-                    <h1 className="confirmHead">Start Date:</h1>
-                    <p className="confirmPara">2024-10-10 </p>
-                  </li>
-                  <li className="confirmLi">
-                    <h1 className="confirmHead">End Date:</h1>
-                    <p className="confirmPara">2025-12-12</p>
-                  </li>
-                  <li className="confirmLi">
-                    <h1 className="confirmHead">Guests:</h1>
-                    <p className="confirmPara">6</p>
-                  </li>
-                  <li className="confirmLi">
-                    <h1 className="confirmHead">Travel Assistance:</h1>
-                    <p className="confirmPara">Car</p>
-                  </li>
-                </ul>
-                <div className="bookBtnsCont">
-                  <button className="bookPrevBtn">Previous</button>
-                  <button className="bookNextBtn">Next</button>
-                </div>
               </div>
+              <p className="bookErrorMsg">{startDateFilled}</p>
             </div>
-          </div>
-        </div>
-        <div className="bookTripBgSm">
-          <ul className="smTabsUl">
-            <li className="smTabLi" />
-            <li className="smTabLi" />
-            <li className="smTabLi" />
-            <li className="smTabLi" />
-            <li className="smTabLi smTabLiActive" />
-          </ul>
-          <div className="detailsCont">
-            <h1 className="detailsHead">Confirmation</h1>
-            <p className="detailsPara">Confirm your details</p>
-            <div className="detailsForm">
-              <ul className="confirmUl">
-                <li className="confirmLi">
-                  <h1 className="confirmHead">Name:</h1>
-                  <p className="confirmPara">Harsha</p>
-                </li>
-                <li className="confirmLi">
-                  <h1 className="confirmHead">Start location:</h1>
-                  <p className="confirmPara">Proddatur</p>
-                </li>
-                <li className="confirmLi">
-                  <h1 className="confirmHead">End location:</h1>
-                  <p className="confirmPara">New York</p>
-                </li>
-                <li className="confirmLi">
-                  <h1 className="confirmHead">Start Date:</h1>
-                  <p className="confirmPara">2024-10-10 </p>
-                </li>
-                <li className="confirmLi">
-                  <h1 className="confirmHead">End Date:</h1>
-                  <p className="confirmPara">2025-12-12</p>
-                </li>
-                <li className="confirmLi">
-                  <h1 className="confirmHead">Guests:</h1>
-                  <p className="confirmPara">6</p>
-                </li>
-                <li className="confirmLi">
-                  <h1 className="confirmHead">Travel Assistance:</h1>
-                  <p className="confirmPara">Car</p>
-                </li>
-              </ul>
+            <div className="bookInputCont">
+              <label htmlFor="end" className="bookInputLabel">
+                End Date
+              </label>
+              <div className={`bookInputIconCont ${errorInputClass}`}>
+                <input
+                  placeholder="dd/mm/yyyy"
+                  id="end"
+                  className="bookInputBox"
+                  type="date"
+                  onChange={this.onChangeEndDate}
+                  value={endDate}
+                />
+              </div>
+              <p className="bookErrorMsg">{endDateFilled}</p>
+              <p className="bookErrorMsg">{isLessDate}</p>
             </div>
           </div>
           <div className="bookBtnsCont">
-            <button className="bookPrevBtn">Previous</button>
-            <button className="bookNextBtn">Next</button>
-          </div>
-        </div>
-
-        <div className="bookTripBgLg">
-          <div className="bookTripLg">
-            <ul className="bookTripSidebarUl">
-              <li className="bookTripSidebarLi">
-                <img
-                  className="tickIcon"
-                  src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
-                  alt="tick"
-                />
-                <p className="numPara">Your Details</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <img
-                  className="tickIcon"
-                  src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
-                  alt="tick"
-                />
-                <p className="numPara">Date Section</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <img
-                  className="tickIcon"
-                  src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
-                  alt="tick"
-                />
-                <p className="numPara">Guests</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <p className="numIcon numIconActive">4</p>
-                <p className="numPara numParaActive">Travel Assistance</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <p className="numIcon">5</p>
-                <p className="numPara">Confirmation</p>
-              </li>
-            </ul>
-            <div className="bookTripLgDetailsCont">
-              <h1 className="bookTripLgHead">Travel Assistance</h1>
-              <p className="bookTripLgPara">Select your travel assistance</p>
-              <div className="detailsFormLg">
-                <div className="travelInputCont">
-                  <input id="check" type="checkbox" />
-                  <label htmlFor="check" className="travelLabel">
-                    Travel Assistance
-                  </label>
-                </div>
-                <h1 className="travelHead">Travel Assistance</h1>
-                <select className="travelInputBox">
-                  <option>Fligh</option>
-                  <option>Car</option>
-                  <option>Bus</option>
-                </select>
-                <div className="bookBtnsCont">
-                  <button className="bookPrevBtn">Previous</button>
-                  <button className="bookNextBtn">Next</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="bookTripBgSm">
-          <ul className="smTabsUl">
-            <li className="smTabLi" />
-            <li className="smTabLi" />
-            <li className="smTabLi" />
-            <li className="smTabLi smTabLiActive" />
-            <li className="smTabLi" />
-          </ul>
-          <div className="detailsCont">
-            <h1 className="detailsHead">Travel Assistance</h1>
-            <p className="detailsPara">Select your Travel Assistance.</p>
-            <div className="detailsForm">
-              <div className="travelInputCont">
-                <input id="check" type="checkbox" />
-                <label htmlFor="check" className="travelLabel">
-                  Travel Assistance
-                </label>
-              </div>
-              <h1 className="travelHead">Travel Assistance</h1>
-              <select className="travelInputBox">
-                <option>Fligh</option>
-                <option>Car</option>
-                <option>Bus</option>
-              </select>
-            </div>
-          </div>
-          <div className="bookBtnsCont">
-            <button className="bookPrevBtn">Previous</button>
-            <button className="bookNextBtn">Next</button>
-          </div>
-        </div>
-
-        <div className="bookTripBgLg">
-          <div className="bookTripLg">
-            <ul className="bookTripSidebarUl">
-              <li className="bookTripSidebarLi">
-                <img
-                  className="tickIcon"
-                  src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
-                  alt="tick"
-                />
-                <p className="numPara">Your Details</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <img
-                  className="tickIcon"
-                  src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
-                  alt="tick"
-                />
-                <p className="numPara">Date Section</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <p className="numIcon numIconActive">3</p>
-                <p className="numPara numParaActive">Guests</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <p className="numIcon">4</p>
-                <p className="numPara">Travel Assistance</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <p className="numIcon">5</p>
-                <p className="numPara">Confirmation</p>
-              </li>
-            </ul>
-            <div className="bookTripLgDetailsCont">
-              <h1 className="bookTripLgHead">Guests</h1>
-              <p className="bookTripLgPara">Select Your Guests</p>
-              <form className="detailsFormLg">
-                <ul className="guestsUl">
-                  <li className="guestLi">
-                    <div className="guestTextCont">
-                      <h1 className="guestHead">Adults</h1>
-                      <p className="guestPara">Age 13 or above</p>
-                    </div>
-                    <div className="guestsCountCont">
-                      <button className="mpBtn">-</button>
-                      <p className="guestCount">0</p>
-                      <button className="mpBtn">+</button>
-                    </div>
-                  </li>
-                </ul>
-                <div className="bookBtnsCont">
-                  <button className="bookPrevBtn">Previous</button>
-                  <button className="bookNextBtn">Next</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <div className="bookTripBgSm">
-          <ul className="smTabsUl">
-            <li className="smTabLi" />
-            <li className="smTabLi" />
-            <li className="smTabLi smTabLiActive" />
-            <li className="smTabLi" />
-            <li className="smTabLi" />
-          </ul>
-          <div className="detailsCont">
-            <h1 className="detailsHead">Guests</h1>
-            <p className="detailsPara">Select Your Guests.</p>
-            <ul className="guestsUl">
-              <li className="guestLi">
-                <div className="guestTextCont">
-                  <h1 className="guestHead">Adults</h1>
-                  <p className="guestPara">Age 13 or above</p>
-                </div>
-                <div className="guestsCountCont">
-                  <button className="mpBtn">-</button>
-                  <p className="guestCount">0</p>
-                  <button className="mpBtn">+</button>
-                </div>
-              </li>
-            </ul>
-
-            <div className="bookBtnsCont">
-              <button className="bookPrevBtn">Previous</button>
-              <button className="bookNextBtn">Next</button>
-            </div>
-          </div>
-        </div>
-
-        <div className="bookTripBgLg">
-          <div className="bookTripLg">
-            <ul className="bookTripSidebarUl">
-              <li className="bookTripSidebarLi">
-                <img
-                  className="tickIcon"
-                  src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
-                  alt="tick"
-                />
-                <p className="numPara">Your Details</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <p className="numIcon numIconActive">2</p>
-                <p className="numPara numParaActive">Date Section</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <p className="numIcon">3</p>
-                <p className="numPara">Guests</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <p className="numIcon">4</p>
-                <p className="numPara">Travel Assistance</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <p className="numIcon">5</p>
-                <p className="numPara">Confirmation</p>
-              </li>
-            </ul>
-            <div className="bookTripLgDetailsCont">
-              <h1 className="bookTripLgHead">Date Selection</h1>
-              <p className="bookTripLgPara">Enter your Start and End Date</p>
-              <form className="detailsFormLg">
-                <div className="bookInputCont">
-                  <label htmlFor="name" className="bookInputLabel">
-                    Start Date
-                  </label>
-                  <div className="bookInputIconCont bookInputIconContError">
-                    <input
-                      placeholder="dd/mm/yyyy"
-                      id="name"
-                      className="bookInputBox"
-                      type="date"
-                    />
-                  </div>
-                  <p className="bookErrorMsg">Select start date</p>
-                </div>
-                <div className="bookInputCont">
-                  <label htmlFor="start" className="bookInputLabel">
-                    End Date
-                  </label>
-                  <div className="bookInputIconCont">
-                    <input
-                      placeholder="dd/mm/yyyy"
-                      id="start"
-                      className="bookInputBox"
-                      type="date"
-                    />
-                  </div>
-                  <p className="bookErrorMsg">Select end date</p>
-                  <p className="bookErrorMsg">
-                    End date cannot be less than start date
-                  </p>
-                </div>
-                <div className="bookBtnsCont">
-                  <button className="bookPrevBtn">Previous</button>
-                  <button className="bookNextBtn">Next</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <div className="bookTripBgSm">
-          <ul className="smTabsUl">
-            <li className="smTabLi" />
-            <li className="smTabLi smTabLiActive" />
-            <li className="smTabLi" />
-            <li className="smTabLi" />
-            <li className="smTabLi" />
-          </ul>
-          <div className="detailsCont">
-            <h1 className="detailsHead">Date Selection</h1>
-            <p className="detailsPara">Select your start and end date.</p>
-            <form className="detailsForm">
-              <div className="bookInputCont">
-                <label htmlFor="start" className="bookInputLabel">
-                  Start Date
-                </label>
-                <div className="bookInputIconCont bookInputIconContError">
-                  <input
-                    placeholder="dd/mm/yyyy"
-                    id="start"
-                    className="bookInputBox"
-                    type="date"
-                  />
-                </div>
-                <p className="bookErrorMsg">Select start date</p>
-              </div>
-              <div className="bookInputCont">
-                <label htmlFor="end" className="bookInputLabel">
-                  End Date
-                </label>
-                <div className="bookInputIconCont">
-                  <input
-                    placeholder="dd/mm/yyyy"
-                    id="end"
-                    className="bookInputBox"
-                    type="date"
-                  />
-                </div>
-                <p className="bookErrorMsg">Select end date</p>
-                <p className="bookErrorMsg">
-                  End date cannot be less than start date
-                </p>
-              </div>
-            </form>
-            <div className="bookBtnsCont">
-              <button className="bookPrevBtn">Previous</button>
-              <button className="bookNextBtn">Next</button>
-            </div>
-          </div>
-        </div>
-
-        <div className="bookTripBgLg">
-          <div className="bookTripLg">
-            <ul className="bookTripSidebarUl">
-              <li className="bookTripSidebarLi">
-                <p className="numIcon numIconActive">1</p>
-                <p className="numPara numParaActive">Your Details</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <p className="numIcon">2</p>
-                <p className="numPara">Date Section</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <p className="numIcon">3</p>
-                <p className="numPara">Guests</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <p className="numIcon">4</p>
-                <p className="numPara">Travel Assistance</p>
-              </li>
-              <li className="bookTripSidebarLi">
-                <p className="numIcon">5</p>
-                <p className="numPara">Confirmation</p>
-              </li>
-            </ul>
-            <div className="bookTripLgDetailsCont">
-              <h1 className="bookTripLgHead">Your Details</h1>
-              <p className="bookTripLgPara">
-                Enter your name and location details
-              </p>
-              <form className="detailsFormLg">
-                <div className="bookInputCont">
-                  <label htmlFor="name" className="bookInputLabel">
-                    Name
-                  </label>
-                  <div className="bookInputIconCont bookInputIconContError">
-                    <input
-                      placeholder="Enter your name"
-                      id="name"
-                      className="bookInputBox"
-                      type="text"
-                    />
-                    <img
-                      className="inputErrorIcon"
-                      src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722433458/info-circle_esho1i.svg"
-                      alt="input error"
-                    />
-                  </div>
-                  <p className="bookErrorMsg">Enter your name</p>
-                </div>
-                <div className="bookInputCont">
-                  <label htmlFor="start" className="bookInputLabel">
-                    Start location
-                  </label>
-                  <div className="bookInputIconCont">
-                    <input
-                      placeholder="Enter start location"
-                      id="start"
-                      className="bookInputBox"
-                      type="text"
-                    />
-                    <img
-                      className="inputErrorIcon"
-                      src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722433458/info-circle_esho1i.svg"
-                      alt="input error"
-                    />
-                  </div>
-                  <p className="bookErrorMsg">Enter your start location</p>
-                </div>
-                <div className="bookInputCont">
-                  <label htmlFor="end" className="bookInputLabel">
-                    End location
-                  </label>
-                  <div className="bookInputIconCont">
-                    <input
-                      placeholder="Enter end location"
-                      id="end"
-                      className="bookInputBox"
-                      type="text"
-                    />
-                    <img
-                      className="inputErrorIcon"
-                      src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722433458/info-circle_esho1i.svg"
-                      alt="input error"
-                    />
-                  </div>
-                  <p className="bookErrorMsg">Enter your end location</p>
-                </div>
-                <button className="bookLgNextBtn">Next</button>
-              </form>
-            </div>
-          </div>
-        </div>
-        <div className="bookTripBgSm">
-          <ul className="smTabsUl">
-            <li className="smTabLi smTabLiActive" />
-            <li className="smTabLi" />
-            <li className="smTabLi" />
-            <li className="smTabLi" />
-            <li className="smTabLi" />
-          </ul>
-          <div className="detailsCont">
-            <h1 className="detailsHead">Your Details</h1>
-            <p className="detailsPara">Enter your name and location details</p>
-            <form className="detailsForm">
-              <div className="bookInputCont">
-                <label htmlFor="name" className="bookInputLabel">
-                  Name
-                </label>
-                <div className="bookInputIconCont bookInputIconContError">
-                  <input
-                    placeholder="Enter your name"
-                    id="name"
-                    className="bookInputBox"
-                    type="text"
-                  />
-                  <img
-                    className="inputErrorIcon"
-                    src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722433458/info-circle_esho1i.svg"
-                    alt="input error"
-                  />
-                </div>
-                <p className="bookErrorMsg">Enter your name</p>
-              </div>
-              <div className="bookInputCont">
-                <label htmlFor="start" className="bookInputLabel">
-                  Start location
-                </label>
-                <div className="bookInputIconCont">
-                  <input
-                    placeholder="Enter start location"
-                    id="start"
-                    className="bookInputBox"
-                    type="text"
-                  />
-                  <img
-                    className="inputErrorIcon"
-                    src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722433458/info-circle_esho1i.svg"
-                    alt="input error"
-                  />
-                </div>
-                <p className="bookErrorMsg">Enter your start location</p>
-              </div>
-              <div className="bookInputCont">
-                <label htmlFor="end" className="bookInputLabel">
-                  End location
-                </label>
-                <div className="bookInputIconCont">
-                  <input
-                    placeholder="Enter end location"
-                    id="end"
-                    className="bookInputBox"
-                    type="text"
-                  />
-                  <img
-                    className="inputErrorIcon"
-                    src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722433458/info-circle_esho1i.svg"
-                    alt="input error"
-                  />
-                </div>
-                <p className="bookErrorMsg">Enter your end location</p>
-              </div>
-            </form>
-            <button className="bookNextBtn">Next</button>
+            <button
+              type="button"
+              onClick={this.onDatePrev}
+              className="bookPrevBtn"
+            >
+              Previous
+            </button>
+            <button
+              type="button"
+              onClick={this.onDateNext}
+              className="bookNextBtn"
+            >
+              Next
+            </button>
           </div>
         </div>
       </>
+    )
+  }
+
+  onDateNext = () => {
+    const {startDate, endDate} = this.state
+    if (startDate === '' || endDate === '' || startDate > endDate) {
+      this.setState({
+        isFilled: false,
+        isLessDate: 'The end date cannot be less than the start date',
+      })
+    } else {
+      this.setState({
+        activeStepId: stepsList[2].stepId,
+      })
+    }
+  }
+
+  onDatePrev = () => {
+    this.setState({
+      activeStepId: stepsList[0].stepId,
+    })
+  }
+
+  renderGuestsForm = () => {
+    const {adults, childrens, infants} = this.state
+    return (
+      <>
+        <div className="bookTripLgDetailsCont">
+          <h1 className="bookTripLgHead">Guests</h1>
+          <p className="bookTripLgPara">Select Your Guests</p>
+          <div className="detailsFormLg">
+            <ul className="guestsUl">
+              <li className="guestLi">
+                <div className="guestTextCont">
+                  <p className="guestHead">Adults</p>
+                  <p className="guestPara">Age 13 or above</p>
+                </div>
+                <div className="guestsCountCont">
+                  <button
+                    type="button"
+                    onClick={this.onAdultsMinus}
+                    className="mpBtn"
+                  >
+                    -
+                  </button>
+                  <p className="guestCount">{adults}</p>
+                  <button
+                    type="button"
+                    onClick={this.onAdultsPlus}
+                    className="mpBtn"
+                  >
+                    +
+                  </button>
+                </div>
+              </li>
+              <li className="guestLi">
+                <div className="guestTextCont">
+                  <p className="guestHead">Children</p>
+                  <p className="guestPara">Age 2-12</p>
+                </div>
+                <div className="guestsCountCont">
+                  <button
+                    type="button"
+                    onClick={this.onChildrenMinus}
+                    className="mpBtn"
+                  >
+                    -
+                  </button>
+                  <p className="guestCount">{childrens}</p>
+                  <button
+                    type="button"
+                    onClick={this.onChildrenPlus}
+                    className="mpBtn"
+                  >
+                    +
+                  </button>
+                </div>
+              </li>
+              <li className="guestLi">
+                <div className="guestTextCont">
+                  <p className="guestHead">Infants</p>
+                  <p className="guestPara">Age under 2</p>
+                </div>
+                <div className="guestsCountCont">
+                  <button
+                    type="button"
+                    onClick={this.onInfantsMinus}
+                    className="mpBtn"
+                  >
+                    -
+                  </button>
+                  <p className="guestCount">{infants}</p>
+                  <button
+                    type="button"
+                    onClick={this.onInfantsPlus}
+                    className="mpBtn"
+                  >
+                    +
+                  </button>
+                </div>
+              </li>
+            </ul>
+            <div className="bookBtnsCont">
+              <button
+                type="button"
+                onClick={this.onGuestsPrev}
+                className="bookPrevBtn"
+              >
+                Previous
+              </button>
+              <button
+                type="button"
+                onClick={this.onGuestsNext}
+                className="bookNextBtn"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="detailsCont">
+          <h1 className="detailsHead">Guests</h1>
+          <p className="detailsPara">Select Your Guests.</p>
+          <ul className="guestsUl">
+            <li className="guestLi">
+              <div className="guestTextCont">
+                <h1 className="guestHead">Adults</h1>
+                <p className="guestPara">Age 13 or above</p>
+              </div>
+              <div className="guestsCountCont">
+                <button
+                  type="button"
+                  onClick={this.onAdultsMinus}
+                  className="mpBtn"
+                >
+                  -
+                </button>
+                <p className="guestCount">{adults}</p>
+                <button
+                  type="button"
+                  onClick={this.onAdultsPlus}
+                  className="mpBtn"
+                >
+                  +
+                </button>
+              </div>
+            </li>
+            <li className="guestLi">
+              <div className="guestTextCont">
+                <h1 className="guestHead">Children</h1>
+                <p className="guestPara">Age 2-12</p>
+              </div>
+              <div className="guestsCountCont">
+                <button
+                  type="button"
+                  onClick={this.onChildrenMinus}
+                  className="mpBtn"
+                >
+                  -
+                </button>
+                <p className="guestCount">{childrens}</p>
+                <button
+                  type="button"
+                  onClick={this.onChildrenPlus}
+                  className="mpBtn"
+                >
+                  +
+                </button>
+              </div>
+            </li>
+            <li className="guestLi">
+              <div className="guestTextCont">
+                <h1 className="guestHead">Infants</h1>
+                <p className="guestPara">Age under 2</p>
+              </div>
+              <div className="guestsCountCont">
+                <button
+                  type="button"
+                  onClick={this.onInfantsMinus}
+                  className="mpBtn"
+                >
+                  -
+                </button>
+                <p className="guestCount">{infants}</p>
+                <button
+                  type="button"
+                  onClick={this.onInfantsPlus}
+                  className="mpBtn"
+                >
+                  +
+                </button>
+              </div>
+            </li>
+          </ul>
+
+          <div className="bookBtnsCont">
+            <button
+              type="button"
+              onClick={this.onGuestsPrev}
+              className="bookPrevBtn"
+            >
+              Previous
+            </button>
+            <button
+              type="button"
+              onClick={this.onGuestsNext}
+              className="bookNextBtn"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      </>
+    )
+  }
+
+  onGuestsNext = () => {
+    this.setState({
+      activeStepId: stepsList[3].stepId,
+    })
+  }
+
+  onGuestsPrev = () => {
+    this.setState({
+      activeStepId: stepsList[1].stepId,
+    })
+  }
+
+  renderTravelForm = () => {
+    const {needTravel, activeTravel} = this.state
+    return (
+      <>
+        <div className="bookTripLgDetailsCont">
+          <h1 className="bookTripLgHead">Travel Assistance</h1>
+          <p className="bookTripLgPara">Select your travel assistance</p>
+          <div className="detailsFormLg">
+            <div className="travelInputCont">
+              <input id="check" onChange={this.onCheckTravel} type="checkbox" />
+              <label htmlFor="check" className="travelLabel">
+                Travel Assistance
+              </label>
+            </div>
+            <h1 className="travelHead">Travel Assistance</h1>
+            {needTravel && (
+              <select
+                value={activeTravel}
+                onChange={this.onChangeTravel}
+                className="travelInputBox"
+              >
+                {travelAssistanceList.map(each => (
+                  <option value={each.value} key={each.id}>
+                    {each.displayText}
+                  </option>
+                ))}
+              </select>
+            )}
+
+            <div className="bookBtnsCont">
+              <button
+                type="button"
+                onClick={this.onTravelPrev}
+                className="bookPrevBtn"
+              >
+                Previous
+              </button>
+              <button
+                type="button"
+                onClick={this.onTravelNext}
+                className="bookNextBtn"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="detailsCont">
+          <h1 className="detailsHead">Travel Assistance</h1>
+          <p className="detailsPara">Select your Travel Assistance.</p>
+          <div className="detailsForm">
+            <div className="travelInputCont">
+              <input id="check" onChange={this.onCheckTravel} type="checkbox" />
+              <label htmlFor="check" className="travelLabel">
+                Travel Assistance
+              </label>
+            </div>
+            <h1 className="travelHead">Travel Assistance</h1>
+            {needTravel && (
+              <select
+                value={activeTravel}
+                onChange={this.onChangeTravel}
+                className="travelInputBox"
+              >
+                {travelAssistanceList.map(each => (
+                  <option value={each.value} key={each.value}>
+                    {each.displayText}
+                  </option>
+                ))}
+              </select>
+            )}
+          </div>
+          <div className="bookBtnsCont">
+            <button
+              type="button"
+              onClick={this.onTravelPrev}
+              className="bookPrevBtn"
+            >
+              Previous
+            </button>
+            <button
+              type="button"
+              onClick={this.onTravelNext}
+              className="bookNextBtn"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      </>
+    )
+  }
+
+  onTravelNext = () => {
+    this.setState({activeStepId: stepsList[4].stepId})
+  }
+
+  onTravelPrev = () => {
+    this.setState({
+      activeStepId: stepsList[2].stepId,
+    })
+  }
+
+  renderConfirmForm = () => {
+    const {
+      username,
+      startLocation,
+      endLocation,
+      startDate,
+      endDate,
+      adults,
+      childrens,
+      infants,
+      activeTravel,
+    } = this.state
+
+    const tripObj = {
+      endLocation,
+      startDate,
+      endDate,
+      id: uuidv4(),
+    }
+
+    return (
+      <>
+        <TripContext.Consumer>
+          {value => {
+            const {onAddTrip} = value
+
+            const onConfirmNext = () => {
+              onAddTrip(tripObj)
+              this.setState({isConfirmed: true})
+              console.log('confirm')
+            }
+            return (
+              <>
+                <div className="bookTripLgDetailsCont">
+                  <h1 className="bookTripLgHead">Confirmation</h1>
+                  <p className="bookTripLgPara">Confirm Your Details</p>
+                  <div className="detailsFormLg">
+                    <ul className="confirmUl">
+                      <li className="confirmLi">
+                        <h1 className="confirmHead">Name:</h1>
+                        <p className="confirmPara">{username}</p>
+                      </li>
+                      <li className="confirmLi">
+                        <h1 className="confirmHead">Start location:</h1>
+                        <p className="confirmPara">{startLocation}</p>
+                      </li>
+                      <li className="confirmLi">
+                        <h1 className="confirmHead">End location:</h1>
+                        <p className="confirmPara">{endLocation}</p>
+                      </li>
+                      <li className="confirmLi">
+                        <h1 className="confirmHead">Start Date:</h1>
+                        <p className="confirmPara">{startDate}</p>
+                      </li>
+                      <li className="confirmLi">
+                        <h1 className="confirmHead">End Date:</h1>
+                        <p className="confirmPara">{endDate}</p>
+                      </li>
+                      <li className="confirmLi">
+                        <h1 className="confirmHead">Guests:</h1>
+                        <p className="confirmPara">
+                          {adults + childrens + infants}
+                        </p>
+                      </li>
+                      <li className="confirmLi">
+                        <h1 className="confirmHead">Travel Assistance:</h1>
+                        <p className="confirmPara">{activeTravel}</p>
+                      </li>
+                    </ul>
+                    <div className="bookBtnsCont">
+                      <button
+                        onClick={this.onConfirmPrev}
+                        type="button"
+                        className="bookPrevBtn"
+                      >
+                        Previous
+                      </button>
+                      <button
+                        type="button"
+                        onClick={onConfirmNext}
+                        className="bookNextBtn"
+                      >
+                        Next
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="detailsCont">
+                  <h1 className="detailsHead">Confirmation</h1>
+                  <p className="detailsPara">Confirm your details</p>
+                  <div className="detailsForm">
+                    <ul className="confirmUl">
+                      <li className="confirmLi">
+                        <h1 className="confirmHead">Name:</h1>
+                        <p className="confirmPara">{username}</p>
+                      </li>
+                      <li className="confirmLi">
+                        <h1 className="confirmHead">Start location:</h1>
+                        <p className="confirmPara">{startLocation}</p>
+                      </li>
+                      <li className="confirmLi">
+                        <h1 className="confirmHead">End location:</h1>
+                        <p className="confirmPara">{endLocation}</p>
+                      </li>
+                      <li className="confirmLi">
+                        <h1 className="confirmHead">Start Date:</h1>
+                        <p className="confirmPara">{startDate}</p>
+                      </li>
+                      <li className="confirmLi">
+                        <h1 className="confirmHead">End Date:</h1>
+                        <p className="confirmPara">{endDate}</p>
+                      </li>
+                      <li className="confirmLi">
+                        <h1 className="confirmHead">Guests:</h1>
+                        <p className="confirmPara">
+                          {adults + childrens + infants}
+                        </p>
+                      </li>
+                      <li className="confirmLi">
+                        <h1 className="confirmHead">Travel Assistance:</h1>
+                        <p className="confirmPara">{activeTravel}</p>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="bookBtnsCont">
+                    <button
+                      type="button"
+                      onClick={this.onTravelPrev}
+                      className="bookPrevBtn"
+                    >
+                      Previous
+                    </button>
+                    <button
+                      type="button"
+                      onClick={this.onConfirmNext}
+                      className="bookNextBtn"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              </>
+            )
+          }}
+        </TripContext.Consumer>
+      </>
+    )
+  }
+
+  onConfirmPrev = () => {
+    this.setState({
+      activeStepId: stepsList[3].stepId,
+    })
+  }
+
+  renderSuccess = () => (
+    <>
+      <div className="bookTripLgDetailsCont">
+        <div className="detailsFormLg bookedCont">
+          <img
+            className="bookedImg"
+            src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
+            alt="success"
+          />
+          <h1 className="emptyHead">Awesome!</h1>
+          <p className="emptyPara">When your booking has been confirmed.</p>
+          <button
+            onClick={this.succcessNewTrip}
+            type="button"
+            className="emptyBtn"
+          >
+            Book a New Trip
+          </button>
+        </div>
+      </div>
+      <div className="detailsForm bookedCont">
+        <img
+          className="bookedImg"
+          src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
+          alt="success"
+        />
+        <h1 className="emptyHead">Awesome!</h1>
+        <p className="emptyPara">When your booking has been confirmed.</p>
+        <button
+          onClick={this.succcessNewTrip}
+          type="button"
+          className="emptyBtn"
+        >
+          Book a New Trip
+        </button>
+      </div>
+    </>
+  )
+
+  renderAllForms = () => {
+    const {activeStepId} = this.state
+
+    switch (activeStepId) {
+      case stepsList[0].stepId:
+        return this.renderYourDetailsForm()
+      case stepsList[1].stepId:
+        return this.renderDateForm()
+      case stepsList[2].stepId:
+        return this.renderGuestsForm()
+      case stepsList[3].stepId:
+        return this.renderTravelForm()
+      case stepsList[4].stepId:
+        return this.renderConfirmForm()
+
+      default:
+        return null
+    }
+  }
+
+  render() {
+    const {activeStepId, isConfirmed} = this.state
+
+    return (
+      <div>
+        <Header />
+        <div className="bookTripBgLg">
+          <div className="bookTripLg">
+            <ul className="bookTripSidebarUl">
+              {stepsList.map((eachLgStep, index) => (
+                <li key={`${eachLgStep.stepId}`} className="bookTripSidebarLi">
+                  <p
+                    className={`numIcon ${
+                      activeStepId === eachLgStep.stepId ? 'numIconActive' : ''
+                    }`}
+                  >
+                    {index + 1}
+                  </p>
+                  {/* <img
+                  className='tickIcon'
+                  src='https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png'
+                  alt='tick'
+                  /> */}
+                  <p
+                    className={`numPara ${
+                      activeStepId === eachLgStep.stepId ? 'numParaActive' : ''
+                    }`}
+                  >
+                    {eachLgStep.displayText}
+                  </p>
+                </li>
+              ))}
+            </ul>
+            {isConfirmed ? this.renderSuccess() : this.renderAllForms()}
+          </div>
+        </div>
+        <div className="bookTripBgSm">
+          <ul className="smTabsUl">
+            {stepsList.map(eachSmStep => (
+              <li
+                key={`${eachSmStep.stepId}`}
+                className={`smTabLi ${
+                  activeStepId === eachSmStep.stepId ? 'smTabLiActive' : ''
+                }`}
+              >
+                {' '}
+              </li>
+            ))}
+          </ul>
+          {isConfirmed ? this.renderSuccess() : this.renderAllForms()}
+        </div>
+      </div>
     )
   }
 }

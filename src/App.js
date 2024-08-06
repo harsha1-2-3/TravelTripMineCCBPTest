@@ -1,7 +1,6 @@
 // -------------- App.js --------------
 import {Component} from 'react'
 import {Switch, Route, Redirect} from 'react-router-dom'
-import {v4 as uuidV4} from 'uuid'
 import Login from './components/Login'
 import Home from './components/Home'
 import BookANewTrip from './components/BookANewTrip'
@@ -13,19 +12,19 @@ import './App.css'
 
 const tripsListInitial = [
   {
-    cityName: 'New York',
+    endLocation: 'New York',
     startDate: '2024-10-10',
     endDate: '2030-10-10',
     id: 1,
   },
   {
-    cityName: 'New Zealand',
+    endLocation: 'New Zealand',
     startDate: '2030-10-10',
     endDate: '2060-10-10',
     id: 2,
   },
   {
-    cityName: 'Japan',
+    endLocation: 'Japan',
     startDate: '2060-10-10',
     endDate: '2090-10-10',
     id: 3,
@@ -44,6 +43,12 @@ class App extends Component {
     })
   }
 
+  onAddTrip = tripObj => {
+    this.setState(prevState => ({
+      tripsList: [...prevState.tripsList, tripObj],
+    }))
+  }
+
   render() {
     const {tripsList} = this.state
     return (
@@ -51,6 +56,7 @@ class App extends Component {
         value={{
           onClickCancel: this.onClickCancel,
           tripsList,
+          onAddTrip: this.onAddTrip,
         }}
       >
         <Switch>
