@@ -777,7 +777,7 @@ class BookANewTrip extends Component {
                 className="travelInputBox"
               >
                 {travelAssistanceList.map(each => (
-                  <option value={each.value} key={each.value}>
+                  <option value={each.displayText} key={each.value}>
                     {each.displayText}
                   </option>
                 ))}
@@ -843,7 +843,9 @@ class BookANewTrip extends Component {
 
             const onConfirmNext = () => {
               onAddTrip(tripObj)
-              this.setState({isConfirmed: true})
+              this.setState(prevState => ({
+                isConfirmed: !prevState.isConfirmed,
+              }))
               console.log('confirm')
             }
             return (
@@ -1030,12 +1032,10 @@ class BookANewTrip extends Component {
     }
   }
 
-  render() {
+  getBasicForm = () => {
     const {activeStepId, isConfirmed} = this.state
-
     return (
-      <div>
-        <Header />
+      <>
         <div className="bookTripBgLg">
           <div className="bookTripLg">
             <ul className="bookTripSidebarUl">
@@ -1081,6 +1081,19 @@ class BookANewTrip extends Component {
           </ul>
           {isConfirmed ? this.renderSuccess() : this.renderAllForms()}
         </div>
+      </>
+    )
+  }
+
+  succcessNewTrip = () => {
+    this.getBasicForm()
+  }
+
+  render() {
+    return (
+      <div>
+        <Header />
+        {this.getBasicForm()}
       </div>
     )
   }
