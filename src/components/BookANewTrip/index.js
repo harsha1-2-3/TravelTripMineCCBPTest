@@ -8,22 +8,27 @@ const stepsList = [
   {
     stepId: 'YOUR_DETAILS',
     displayText: 'Your Details',
+    completed: false,
   },
   {
     stepId: 'DATE_SELECTION',
     displayText: 'Date Selection',
+    completed: false,
   },
   {
     stepId: 'GUESTS',
     displayText: 'Guests',
+    completed: false,
   },
   {
     stepId: 'TRAVEL_ASSISTANCE',
     displayText: 'Travel Assistance',
+    completed: false,
   },
   {
     stepId: 'CONFIRMATION',
     displayText: 'Confirmation',
+    completed: false,
   },
 ]
 
@@ -53,19 +58,24 @@ const travelAssistanceList = [
 class BookANewTrip extends Component {
   state = {
     activeStepId: stepsList[0].stepId,
-    isFilled: '',
+    stateStepsList: stepsList,
     username: '',
+    errorName: false,
     startLocation: '',
+    errorStartLocation: false,
     endLocation: '',
+    errorEndLocation: false,
     startDate: '',
+    errorStartDate: false,
     endDate: '',
+    errorEndDate: false,
+    errorLessDate: false,
     adults: 1,
     childrens: 0,
     infants: 0,
     needTravel: false,
-    activeTravel: 'car',
+    activeTravel: 'None',
     isConfirmed: false,
-    isLessDate: '',
   }
 
   onChangeName = event => {
@@ -170,13 +180,19 @@ class BookANewTrip extends Component {
   }
 
   renderYourDetailsForm = () => {
-    const {username, startLocation, endLocation, isFilled} = this.state
-    const errorInputClass = isFilled === false ? 'bookInputIconContError' : ''
-    const nameFilled = isFilled === false ? 'Enter your name' : ''
-    const startLocationFilled =
-      isFilled === false ? 'Enter your start location' : ''
-    const endLocationFilled =
-      isFilled === false ? 'Enter your end location' : ''
+    const {
+      username,
+      startLocation,
+      endLocation,
+      errorName,
+      errorStartLocation,
+      errorEndLocation,
+    } = this.state
+    const nameFilled = errorName ? 'bookInputIconContError' : ''
+    const startLocationFilled = errorStartLocation
+      ? 'bookInputIconContError'
+      : ''
+    const endLocationFilled = errorEndLocation ? 'bookInputIconContError' : ''
 
     return (
       <>
@@ -188,7 +204,7 @@ class BookANewTrip extends Component {
               <label htmlFor="name" className="bookInputLabel">
                 Name
               </label>
-              <div className={`bookInputIconCont ${errorInputClass}`}>
+              <div className={`bookInputIconCont ${nameFilled}`}>
                 <input
                   placeholder="Enter your name"
                   id="name"
@@ -197,7 +213,7 @@ class BookANewTrip extends Component {
                   onChange={this.onChangeName}
                   value={username}
                 />
-                {isFilled === false ? (
+                {errorName ? (
                   <img
                     className="inputErrorIcon"
                     src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722433458/info-circle_esho1i.svg"
@@ -205,13 +221,13 @@ class BookANewTrip extends Component {
                   />
                 ) : null}
               </div>
-              <p className="bookErrorMsg">{nameFilled}</p>
+              {errorName && <p className="bookErrorMsg">Enter your name</p>}
             </div>
             <div className="bookInputCont">
               <label htmlFor="start" className="bookInputLabel">
                 Start location
               </label>
-              <div className={`bookInputIconCont ${errorInputClass}`}>
+              <div className={`bookInputIconCont ${startLocationFilled}`}>
                 <input
                   placeholder="Enter start location"
                   id="start"
@@ -220,7 +236,7 @@ class BookANewTrip extends Component {
                   onChange={this.onChangeStartLocation}
                   value={startLocation}
                 />
-                {isFilled === false ? (
+                {errorStartLocation ? (
                   <img
                     className="inputErrorIcon"
                     src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722433458/info-circle_esho1i.svg"
@@ -228,13 +244,15 @@ class BookANewTrip extends Component {
                   />
                 ) : null}
               </div>
-              <p className="bookErrorMsg">{startLocationFilled}</p>
+              {errorStartLocation && (
+                <p className="bookErrorMsg">Enter your start location</p>
+              )}
             </div>
             <div className="bookInputCont">
               <label htmlFor="end" className="bookInputLabel">
                 End location
               </label>
-              <div className={`bookInputIconCont ${errorInputClass}`}>
+              <div className={`bookInputIconCont ${endLocationFilled}`}>
                 <input
                   placeholder="Enter end location"
                   id="end"
@@ -243,7 +261,7 @@ class BookANewTrip extends Component {
                   onChange={this.onChangeEndLocation}
                   value={endLocation}
                 />
-                {isFilled === false ? (
+                {errorEndLocation ? (
                   <img
                     className="inputErrorIcon"
                     src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722433458/info-circle_esho1i.svg"
@@ -251,7 +269,9 @@ class BookANewTrip extends Component {
                   />
                 ) : null}
               </div>
-              <p className="bookErrorMsg">{endLocationFilled}</p>
+              {errorEndLocation && (
+                <p className="bookErrorMsg">Enter your end location</p>
+              )}
             </div>
             <button
               onClick={this.onYourDetailsNext}
@@ -271,7 +291,7 @@ class BookANewTrip extends Component {
               <label htmlFor="name" className="bookInputLabel">
                 Name
               </label>
-              <div className={`bookInputIconCont ${errorInputClass}`}>
+              <div className={`bookInputIconCont ${nameFilled}`}>
                 <input
                   placeholder="Enter your name"
                   id="name"
@@ -280,7 +300,7 @@ class BookANewTrip extends Component {
                   onChange={this.onChangeName}
                   value={username}
                 />
-                {isFilled === false ? (
+                {errorName ? (
                   <img
                     className="inputErrorIcon"
                     src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722433458/info-circle_esho1i.svg"
@@ -288,13 +308,13 @@ class BookANewTrip extends Component {
                   />
                 ) : null}
               </div>
-              <p className="bookErrorMsg">{nameFilled}</p>
+              {errorName && <p className="bookErrorMsg">Enter your name</p>}
             </div>
             <div className="bookInputCont">
               <label htmlFor="start" className="bookInputLabel">
                 Start location
               </label>
-              <div className={`bookInputIconCont ${errorInputClass}`}>
+              <div className={`bookInputIconCont ${startLocationFilled}`}>
                 <input
                   placeholder="Enter start location"
                   id="start"
@@ -303,7 +323,7 @@ class BookANewTrip extends Component {
                   onChange={this.onChangeStartLocation}
                   value={startLocation}
                 />
-                {isFilled === false ? (
+                {errorStartLocation ? (
                   <img
                     className="inputErrorIcon"
                     src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722433458/info-circle_esho1i.svg"
@@ -311,13 +331,15 @@ class BookANewTrip extends Component {
                   />
                 ) : null}
               </div>
-              <p className="bookErrorMsg">{startLocationFilled}</p>
+              {errorStartLocation && (
+                <p className="bookErrorMsg">Enter your start location</p>
+              )}
             </div>
             <div className="bookInputCont">
               <label htmlFor="end" className="bookInputLabel">
                 End location
               </label>
-              <div className={`bookInputIconCont ${errorInputClass}`}>
+              <div className={`bookInputIconCont ${endLocationFilled}`}>
                 <input
                   placeholder="Enter end location"
                   id="end"
@@ -326,7 +348,7 @@ class BookANewTrip extends Component {
                   onChange={this.onChangeEndLocation}
                   value={endLocation}
                 />
-                {isFilled === false ? (
+                {errorEndLocation ? (
                   <img
                     className="inputErrorIcon"
                     src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722433458/info-circle_esho1i.svg"
@@ -334,7 +356,9 @@ class BookANewTrip extends Component {
                   />
                 ) : null}
               </div>
-              <p className="bookErrorMsg">{endLocationFilled}</p>
+              {errorEndLocation && (
+                <p className="bookErrorMsg">Enter your end location</p>
+              )}
             </div>
           </div>
           <button
@@ -351,22 +375,45 @@ class BookANewTrip extends Component {
 
   onYourDetailsNext = () => {
     const {username, startLocation, endLocation} = this.state
-    if (startLocation === '' || username === '' || endLocation === '') {
-      this.setState({
-        isFilled: false,
-      })
+    let hasErrors = false
+
+    if (startLocation === '') {
+      this.setState({errorStartLocation: true})
+      hasErrors = true
     } else {
-      this.setState({
-        activeStepId: stepsList[1].stepId,
-      })
+      this.setState({errorStartLocation: false})
+    }
+
+    if (endLocation === '') {
+      this.setState({errorEndLocation: true})
+      hasErrors = true
+    } else {
+      this.setState({errorEndLocation: false})
+    }
+
+    if (username === '') {
+      this.setState({errorName: true})
+      hasErrors = true
+    } else {
+      this.setState({errorName: false})
+    }
+
+    if (!hasErrors) {
+      this.setState({activeStepId: stepsList[1].stepId})
+      this.updateStepCompletion(stepsList[0].stepId)
     }
   }
 
   renderDateForm = () => {
-    const {isFilled, startDate, endDate, isLessDate} = this.state
-    const errorInputClass = isFilled === false ? 'bookInputIconContError' : ''
-    const startDateFilled = isFilled === false ? 'Select start date' : ''
-    const endDateFilled = isFilled === false ? 'Select end date' : ''
+    const {
+      startDate,
+      endDate,
+      errorEndDate,
+      errorStartDate,
+      errorLessDate,
+    } = this.state
+    const startDateFilled = errorStartDate ? 'bookInputIconContError' : ''
+    const endDateFilled = errorEndDate ? 'bookInputIconContError' : ''
 
     return (
       <>
@@ -378,7 +425,7 @@ class BookANewTrip extends Component {
               <label htmlFor="name" className="bookInputLabel">
                 Start Date
               </label>
-              <div className={`bookInputIconCont ${errorInputClass}`}>
+              <div className={`bookInputIconCont ${startDateFilled}`}>
                 <input
                   placeholder="dd/mm/yyyy"
                   id="name"
@@ -388,13 +435,15 @@ class BookANewTrip extends Component {
                   value={startDate}
                 />
               </div>
-              <p className="bookErrorMsg">{startDateFilled}</p>
+              {errorStartDate && (
+                <p className="bookErrorMsg">Select start date</p>
+              )}
             </div>
             <div className="bookInputCont">
               <label htmlFor="start" className="bookInputLabel">
                 End Date
               </label>
-              <div className={`bookInputIconCont ${errorInputClass}`}>
+              <div className={`bookInputIconCont ${endDateFilled}`}>
                 <input
                   placeholder="dd/mm/yyyy"
                   id="start"
@@ -404,8 +453,12 @@ class BookANewTrip extends Component {
                   value={endDate}
                 />
               </div>
-              <p className="bookErrorMsg">{endDateFilled}</p>
-              <p className="bookErrorMsg">{isLessDate}</p>
+              {errorEndDate && <p className="bookErrorMsg">Select end date</p>}
+              {errorLessDate && (
+                <p className="bookErrorMsg">
+                  The end date cannot be less than the start date
+                </p>
+              )}
             </div>
             <div className="bookBtnsCont">
               <button
@@ -434,7 +487,7 @@ class BookANewTrip extends Component {
               <label htmlFor="start" className="bookInputLabel">
                 Start Date
               </label>
-              <div className={`bookInputIconCont ${errorInputClass}`}>
+              <div className={`bookInputIconCont ${startDateFilled}`}>
                 <input
                   placeholder="dd/mm/yyyy"
                   id="start"
@@ -444,13 +497,15 @@ class BookANewTrip extends Component {
                   value={startDate}
                 />
               </div>
-              <p className="bookErrorMsg">{startDateFilled}</p>
+              {errorStartDate && (
+                <p className="bookErrorMsg">Select start date</p>
+              )}{' '}
             </div>
             <div className="bookInputCont">
               <label htmlFor="end" className="bookInputLabel">
                 End Date
               </label>
-              <div className={`bookInputIconCont ${errorInputClass}`}>
+              <div className={`bookInputIconCont ${endDateFilled}`}>
                 <input
                   placeholder="dd/mm/yyyy"
                   id="end"
@@ -460,8 +515,12 @@ class BookANewTrip extends Component {
                   value={endDate}
                 />
               </div>
-              <p className="bookErrorMsg">{endDateFilled}</p>
-              <p className="bookErrorMsg">{isLessDate}</p>
+              {errorEndDate && <p className="bookErrorMsg">Select end date</p>}
+              {errorLessDate && (
+                <p className="bookErrorMsg">
+                  The end date cannot be less than the start date
+                </p>
+              )}
             </div>
           </div>
           <div className="bookBtnsCont">
@@ -487,15 +546,37 @@ class BookANewTrip extends Component {
 
   onDateNext = () => {
     const {startDate, endDate} = this.state
-    if (startDate === '' || endDate === '' || startDate > endDate) {
+
+    let hasErrors = false
+    if (startDate === '') {
       this.setState({
-        isFilled: false,
-        isLessDate: 'The end date cannot be less than the start date',
+        errorStartDate: true,
       })
+      hasErrors = true
     } else {
+      this.setState({errorStartDate: false})
+    }
+    if (endDate === '') {
+      this.setState({
+        errorEndDate: true,
+      })
+      hasErrors = true
+    } else {
+      this.setState({errorEndDate: false})
+    }
+    if (startDate > endDate) {
+      this.setState({
+        errorLessDate: true,
+      })
+      hasErrors = true
+    } else {
+      this.setState({errorLessDate: false})
+    }
+    if (!hasErrors) {
       this.setState({
         activeStepId: stepsList[2].stepId,
       })
+      this.updateStepCompletion(stepsList[1].stepId)
     }
   }
 
@@ -703,6 +784,7 @@ class BookANewTrip extends Component {
     this.setState({
       activeStepId: stepsList[3].stepId,
     })
+    this.updateStepCompletion(stepsList[2].stepId)
   }
 
   onGuestsPrev = () => {
@@ -733,7 +815,7 @@ class BookANewTrip extends Component {
                 className="travelInputBox"
               >
                 {travelAssistanceList.map(each => (
-                  <option value={each.value} key={each.id}>
+                  <option value={each.displayText} key={each.id}>
                     {each.displayText}
                   </option>
                 ))}
@@ -807,6 +889,7 @@ class BookANewTrip extends Component {
 
   onTravelNext = () => {
     this.setState({activeStepId: stepsList[4].stepId})
+    this.updateStepCompletion(stepsList[3].stepId)
   }
 
   onTravelPrev = () => {
@@ -952,7 +1035,7 @@ class BookANewTrip extends Component {
                     </button>
                     <button
                       type="button"
-                      onClick={this.onConfirmNext}
+                      onClick={onConfirmNext}
                       className="bookNextBtn"
                     >
                       Next
@@ -971,12 +1054,21 @@ class BookANewTrip extends Component {
     this.setState({
       activeStepId: stepsList[3].stepId,
     })
+    /* const {activeStepId} = this.state
+    const currentIndex = stepsList.findIndex(
+      step => step.stepId === activeStepId,
+    )
+    if (currentIndex > 0) {
+      this.setState({
+        activeStepId: stepsList[currentIndex - 1].stepId,
+      })
+    } */
   }
 
   renderSuccess = () => (
     <>
       <div className="bookTripLgDetailsCont">
-        <div className="detailsFormLg bookedCont">
+        <div className="detailsFormLgSuccess">
           <img
             className="bookedImg"
             src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
@@ -993,7 +1085,8 @@ class BookANewTrip extends Component {
           </button>
         </div>
       </div>
-      <div className="detailsForm bookedCont">
+
+      <div className="bookedCont">
         <img
           className="bookedImg"
           src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
@@ -1033,26 +1126,32 @@ class BookANewTrip extends Component {
   }
 
   getBasicForm = () => {
-    const {activeStepId, isConfirmed} = this.state
+    const {activeStepId, isConfirmed, stateStepsList} = this.state
     return (
       <>
         <div className="bookTripBgLg">
           <div className="bookTripLg">
             <ul className="bookTripSidebarUl">
-              {stepsList.map((eachLgStep, index) => (
+              {stateStepsList.map((eachLgStep, index) => (
                 <li key={`${eachLgStep.stepId}`} className="bookTripSidebarLi">
-                  <p
-                    className={`numIcon ${
-                      activeStepId === eachLgStep.stepId ? 'numIconActive' : ''
-                    }`}
-                  >
-                    {index + 1}
-                  </p>
-                  {/* <img
-                  className='tickIcon'
-                  src='https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png'
-                  alt='tick'
-                  /> */}
+                  {eachLgStep.completed ? (
+                    <img
+                      className="tickIcon"
+                      src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
+                      alt="tick"
+                    />
+                  ) : (
+                    <p
+                      className={`numIcon ${
+                        activeStepId === eachLgStep.stepId
+                          ? 'numIconActive'
+                          : ''
+                      }`}
+                    >
+                      {index + 1}
+                    </p>
+                  )}
+
                   <p
                     className={`numPara ${
                       activeStepId === eachLgStep.stepId ? 'numParaActive' : ''
@@ -1086,7 +1185,18 @@ class BookANewTrip extends Component {
   }
 
   succcessNewTrip = () => {
-    this.getBasicForm()
+    this.setState({
+      activeStepId: stepsList[0].stepId,
+      isConfirmed: false,
+    })
+  }
+
+  updateStepCompletion = stepId => {
+    this.setState(prevState => ({
+      stateStepsList: prevState.stateStepsList.map(step =>
+        step.stepId === stepId ? {...step, completed: true} : step,
+      ),
+    }))
   }
 
   render() {

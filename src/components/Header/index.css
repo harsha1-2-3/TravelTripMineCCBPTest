@@ -6,6 +6,8 @@
   align-items: center;
   min-height: 10vh;
   background-color: #304766;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 .headerLogo {
