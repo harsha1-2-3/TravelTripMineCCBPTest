@@ -10,7 +10,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import TripContext from './context/TripContext'
 import './App.css'
 
-const tripsListInitial = [
+/* const tripsListInitial = [
   {
     endLocation: 'New York',
     startDate: '2024-10-10',
@@ -29,10 +29,11 @@ const tripsListInitial = [
     endDate: '2090-10-10',
     id: 3,
   },
-]
+] */
+
 class App extends Component {
   state = {
-    tripsList: tripsListInitial,
+    tripsList: '',
   }
 
   onClickCancel = id => {

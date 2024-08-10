@@ -17,9 +17,11 @@ const Header = props => {
           <h1 className="headerLogo">Travel Trip </h1>
         </Link>
         <ul className="optionsUl">
-          <Link className="link optionLi" to="/">
-            <li className="optionLi">Home</li>
-          </Link>
+          <li className="optionLi">
+            <Link className="link optionLi" to="/">
+              Home
+            </Link>
+          </li>
           <li className="optionLi">
             <Link className="link optionLi" to="/my-trips">
               My Trips
@@ -46,7 +48,7 @@ const Header = props => {
             <img
               className="homeIcon"
               src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722428124/Vector_xtni4q.svg"
-              alt="home"
+              alt="my trips"
             />
           </Link>
         </button>
@@ -54,7 +56,7 @@ const Header = props => {
           <img
             className="homeIcon"
             src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722428690/logout_wwyuyd.svg"
-            alt="home"
+            alt="logout"
           />
         </button>
       </nav>

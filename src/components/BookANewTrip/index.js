@@ -199,7 +199,7 @@ class BookANewTrip extends Component {
         <div className="bookTripLgDetailsCont">
           <h1 className="bookTripLgHead">Your Details</h1>
           <p className="bookTripLgPara">Enter your name and location details</p>
-          <div className="detailsFormLg">
+          <form className="detailsFormLg">
             <div className="bookInputCont">
               <label htmlFor="name" className="bookInputLabel">
                 Name
@@ -280,13 +280,14 @@ class BookANewTrip extends Component {
             >
               Next
             </button>
-          </div>
+          </form>
         </div>
+        {/* Space */}
 
         <div className="detailsCont">
           <h1 className="detailsHead">Your Details</h1>
           <p className="detailsPara">Enter your name and location details</p>
-          <div className="detailsForm">
+          <form className="detailsForm">
             <div className="bookInputCont">
               <label htmlFor="name" className="bookInputLabel">
                 Name
@@ -360,7 +361,7 @@ class BookANewTrip extends Component {
                 <p className="bookErrorMsg">Enter your end location</p>
               )}
             </div>
-          </div>
+          </form>
           <button
             type="button"
             onClick={this.onYourDetailsNext}
@@ -373,7 +374,8 @@ class BookANewTrip extends Component {
     )
   }
 
-  onYourDetailsNext = () => {
+  onYourDetailsNext = event => {
+    event.preventDefault()
     const {username, startLocation, endLocation} = this.state
     let hasErrors = false
 
@@ -400,7 +402,7 @@ class BookANewTrip extends Component {
 
     if (!hasErrors) {
       this.setState({activeStepId: stepsList[1].stepId})
-      this.updateStepCompletion(stepsList[0].stepId)
+      this.updateStepCompletion(stepsList[0].stepId, true)
     }
   }
 
@@ -478,10 +480,11 @@ class BookANewTrip extends Component {
             </div>
           </div>
         </div>
+        {/* Space */}
 
         <div className="detailsCont">
           <h1 className="detailsHead">Date Selection</h1>
-          <p className="detailsPara">Select your start and end date.</p>
+          <p className="detailsPara">Select your Start and End Date</p>
           <div className="detailsForm">
             <div className="bookInputCont">
               <label htmlFor="start" className="bookInputLabel">
@@ -564,7 +567,7 @@ class BookANewTrip extends Component {
     } else {
       this.setState({errorEndDate: false})
     }
-    if (startDate > endDate) {
+    if (endDate < startDate) {
       this.setState({
         errorLessDate: true,
       })
@@ -576,7 +579,7 @@ class BookANewTrip extends Component {
       this.setState({
         activeStepId: stepsList[2].stepId,
       })
-      this.updateStepCompletion(stepsList[1].stepId)
+      this.updateStepCompletion(stepsList[1].stepId, true)
     }
   }
 
@@ -584,6 +587,7 @@ class BookANewTrip extends Component {
     this.setState({
       activeStepId: stepsList[0].stepId,
     })
+    this.updateStepCompletion(stepsList[0].stepId, false)
   }
 
   renderGuestsForm = () => {
@@ -644,7 +648,7 @@ class BookANewTrip extends Component {
               <li className="guestLi">
                 <div className="guestTextCont">
                   <p className="guestHead">Infants</p>
-                  <p className="guestPara">Age under 2</p>
+                  <p className="guestPara">under 2</p>
                 </div>
                 <div className="guestsCountCont">
                   <button
@@ -683,14 +687,15 @@ class BookANewTrip extends Component {
             </div>
           </div>
         </div>
+        {/* Space */}
 
         <div className="detailsCont">
           <h1 className="detailsHead">Guests</h1>
-          <p className="detailsPara">Select Your Guests.</p>
+          <p className="detailsPara">Select Your Guests</p>
           <ul className="guestsUl">
             <li className="guestLi">
               <div className="guestTextCont">
-                <h1 className="guestHead">Adults</h1>
+                <p className="guestHead">Adults</p>
                 <p className="guestPara">Age 13 or above</p>
               </div>
               <div className="guestsCountCont">
@@ -713,7 +718,7 @@ class BookANewTrip extends Component {
             </li>
             <li className="guestLi">
               <div className="guestTextCont">
-                <h1 className="guestHead">Children</h1>
+                <p className="guestHead">Children</p>
                 <p className="guestPara">Age 2-12</p>
               </div>
               <div className="guestsCountCont">
@@ -736,8 +741,8 @@ class BookANewTrip extends Component {
             </li>
             <li className="guestLi">
               <div className="guestTextCont">
-                <h1 className="guestHead">Infants</h1>
-                <p className="guestPara">Age under 2</p>
+                <p className="guestHead">Infants</p>
+                <p className="guestPara">under 2</p>
               </div>
               <div className="guestsCountCont">
                 <button
@@ -784,13 +789,14 @@ class BookANewTrip extends Component {
     this.setState({
       activeStepId: stepsList[3].stepId,
     })
-    this.updateStepCompletion(stepsList[2].stepId)
+    this.updateStepCompletion(stepsList[2].stepId, true)
   }
 
   onGuestsPrev = () => {
     this.setState({
       activeStepId: stepsList[1].stepId,
     })
+    this.updateStepCompletion(stepsList[1].stepId, false)
   }
 
   renderTravelForm = () => {
@@ -804,10 +810,9 @@ class BookANewTrip extends Component {
             <div className="travelInputCont">
               <input id="check" onChange={this.onCheckTravel} type="checkbox" />
               <label htmlFor="check" className="travelLabel">
-                Travel Assistance
+                Travel Assistance Needed
               </label>
             </div>
-            <h1 className="travelHead">Travel Assistance</h1>
             {needTravel && (
               <select
                 value={activeTravel}
@@ -840,6 +845,7 @@ class BookANewTrip extends Component {
             </div>
           </div>
         </div>
+        {/* Space */}
 
         <div className="detailsCont">
           <h1 className="detailsHead">Travel Assistance</h1>
@@ -848,10 +854,9 @@ class BookANewTrip extends Component {
             <div className="travelInputCont">
               <input id="check" onChange={this.onCheckTravel} type="checkbox" />
               <label htmlFor="check" className="travelLabel">
-                Travel Assistance
+                Travel Assistance Needed
               </label>
             </div>
-            <h1 className="travelHead">Travel Assistance</h1>
             {needTravel && (
               <select
                 value={activeTravel}
@@ -889,13 +894,14 @@ class BookANewTrip extends Component {
 
   onTravelNext = () => {
     this.setState({activeStepId: stepsList[4].stepId})
-    this.updateStepCompletion(stepsList[3].stepId)
+    this.updateStepCompletion(stepsList[3].stepId, true)
   }
 
   onTravelPrev = () => {
     this.setState({
       activeStepId: stepsList[2].stepId,
     })
+    this.updateStepCompletion(stepsList[2].stepId, false)
   }
 
   renderConfirmForm = () => {
@@ -935,37 +941,37 @@ class BookANewTrip extends Component {
               <>
                 <div className="bookTripLgDetailsCont">
                   <h1 className="bookTripLgHead">Confirmation</h1>
-                  <p className="bookTripLgPara">Confirm Your Details</p>
+                  <p className="bookTripLgPara">Confirm your details</p>
                   <div className="detailsFormLg">
                     <ul className="confirmUl">
                       <li className="confirmLi">
-                        <h1 className="confirmHead">Name:</h1>
+                        <p className="confirmHead">Name:</p>
                         <p className="confirmPara">{username}</p>
                       </li>
                       <li className="confirmLi">
-                        <h1 className="confirmHead">Start location:</h1>
+                        <p className="confirmHead">Start Location:</p>
                         <p className="confirmPara">{startLocation}</p>
                       </li>
                       <li className="confirmLi">
-                        <h1 className="confirmHead">End location:</h1>
+                        <p className="confirmHead">End Location:</p>
                         <p className="confirmPara">{endLocation}</p>
                       </li>
                       <li className="confirmLi">
-                        <h1 className="confirmHead">Start Date:</h1>
+                        <p className="confirmHead">Start Date:</p>
                         <p className="confirmPara">{startDate}</p>
                       </li>
                       <li className="confirmLi">
-                        <h1 className="confirmHead">End Date:</h1>
+                        <p className="confirmHead">End Date:</p>
                         <p className="confirmPara">{endDate}</p>
                       </li>
                       <li className="confirmLi">
-                        <h1 className="confirmHead">Guests:</h1>
+                        <p className="confirmHead">Guests:</p>
                         <p className="confirmPara">
                           {adults + childrens + infants}
                         </p>
                       </li>
                       <li className="confirmLi">
-                        <h1 className="confirmHead">Travel Assistance:</h1>
+                        <p className="confirmHead">Travel Assistance:</p>
                         <p className="confirmPara">{activeTravel}</p>
                       </li>
                     </ul>
@@ -979,6 +985,13 @@ class BookANewTrip extends Component {
                       </button>
                       <button
                         type="button"
+                        onClick={this.onConfirmCancel}
+                        className="bookPrevBtn"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="button"
                         onClick={onConfirmNext}
                         className="bookNextBtn"
                       >
@@ -987,40 +1000,40 @@ class BookANewTrip extends Component {
                     </div>
                   </div>
                 </div>
-
+                {/* Space */}
                 <div className="detailsCont">
                   <h1 className="detailsHead">Confirmation</h1>
                   <p className="detailsPara">Confirm your details</p>
                   <div className="detailsForm">
                     <ul className="confirmUl">
                       <li className="confirmLi">
-                        <h1 className="confirmHead">Name:</h1>
+                        <p className="confirmHead">Name:</p>
                         <p className="confirmPara">{username}</p>
                       </li>
                       <li className="confirmLi">
-                        <h1 className="confirmHead">Start location:</h1>
+                        <p className="confirmHead">Start Location:</p>
                         <p className="confirmPara">{startLocation}</p>
                       </li>
                       <li className="confirmLi">
-                        <h1 className="confirmHead">End location:</h1>
+                        <p className="confirmHead">End Location:</p>
                         <p className="confirmPara">{endLocation}</p>
                       </li>
                       <li className="confirmLi">
-                        <h1 className="confirmHead">Start Date:</h1>
+                        <p className="confirmHead">Start Date:</p>
                         <p className="confirmPara">{startDate}</p>
                       </li>
                       <li className="confirmLi">
-                        <h1 className="confirmHead">End Date:</h1>
+                        <p className="confirmHead">End Date:</p>
                         <p className="confirmPara">{endDate}</p>
                       </li>
                       <li className="confirmLi">
-                        <h1 className="confirmHead">Guests:</h1>
+                        <p className="confirmHead">Guests:</p>
                         <p className="confirmPara">
                           {adults + childrens + infants}
                         </p>
                       </li>
                       <li className="confirmLi">
-                        <h1 className="confirmHead">Travel Assistance:</h1>
+                        <p className="confirmHead">Travel Assistance:</p>
                         <p className="confirmPara">{activeTravel}</p>
                       </li>
                     </ul>
@@ -1028,10 +1041,17 @@ class BookANewTrip extends Component {
                   <div className="bookBtnsCont">
                     <button
                       type="button"
-                      onClick={this.onTravelPrev}
+                      onClick={this.onConfirmPrev}
                       className="bookPrevBtn"
                     >
                       Previous
+                    </button>
+                    <button
+                      type="button"
+                      onClick={this.onConfirmCancel}
+                      className="bookPrevBtn"
+                    >
+                      Cancel
                     </button>
                     <button
                       type="button"
@@ -1054,6 +1074,8 @@ class BookANewTrip extends Component {
     this.setState({
       activeStepId: stepsList[3].stepId,
     })
+    this.updateStepCompletion(stepsList[3].stepId, false)
+
     /* const {activeStepId} = this.state
     const currentIndex = stepsList.findIndex(
       step => step.stepId === activeStepId,
@@ -1065,17 +1087,26 @@ class BookANewTrip extends Component {
     } */
   }
 
+  onConfirmCancel = () => {
+    this.setState({
+      username: '',
+      activeStepId: stepsList[0].stepId,
+      stateStepsList: stepsList.map(step => ({...step, completed: false})),
+    })
+    this.updateStepCompletion(stepsList[0].stepId, false)
+  }
+
   renderSuccess = () => (
     <>
       <div className="bookTripLgDetailsCont">
         <div className="detailsFormLgSuccess">
           <img
             className="bookedImg"
-            src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
-            alt="success"
+            src="https://assets.ccbp.in/frontend/react-js/travel-trip-steps-successfully-completed-img.png"
+            alt="Success"
           />
-          <h1 className="emptyHead">Awesome!</h1>
-          <p className="emptyPara">When your booking has been confirmed.</p>
+          <h1 className="emptyHead">Awesome</h1>
+          <p className="emptyPara">Your booking has been confirmed</p>
           <button
             onClick={this.succcessNewTrip}
             type="button"
@@ -1085,15 +1116,15 @@ class BookANewTrip extends Component {
           </button>
         </div>
       </div>
-
+      {/* Space */}
       <div className="bookedCont">
         <img
           className="bookedImg"
-          src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
-          alt="success"
+          src="https://assets.ccbp.in/frontend/react-js/travel-trip-steps-successfully-completed-img.png"
+          alt="Success"
         />
-        <h1 className="emptyHead">Awesome!</h1>
-        <p className="emptyPara">When your booking has been confirmed.</p>
+        <h1 className="emptyHead">Awesome</h1>
+        <p className="emptyPara">Your booking has been confirmed</p>
         <button
           onClick={this.succcessNewTrip}
           type="button"
@@ -1137,8 +1168,8 @@ class BookANewTrip extends Component {
                   {eachLgStep.completed ? (
                     <img
                       className="tickIcon"
-                      src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434328/tick-circle_o9y1rt.png"
-                      alt="tick"
+                      src="https://assets.ccbp.in/frontend/react-js/travel-trip-steps-successfully-completed-img.png"
+                      alt={eachLgStep.displayText}
                     />
                   ) : (
                     <p
@@ -1186,15 +1217,18 @@ class BookANewTrip extends Component {
 
   succcessNewTrip = () => {
     this.setState({
-      activeStepId: stepsList[0].stepId,
+      username: '',
       isConfirmed: false,
+      activeStepId: stepsList[0].stepId,
+      stateStepsList: stepsList.map(step => ({...step, completed: false})),
     })
+    this.updateStepCompletion(stepsList[0].stepId, false)
   }
 
-  updateStepCompletion = stepId => {
+  updateStepCompletion = (stepId, isCompleted) => {
     this.setState(prevState => ({
       stateStepsList: prevState.stateStepsList.map(step =>
-        step.stepId === stepId ? {...step, completed: true} : step,
+        step.stepId === stepId ? {...step, completed: isCompleted} : step,
       ),
     }))
   }
