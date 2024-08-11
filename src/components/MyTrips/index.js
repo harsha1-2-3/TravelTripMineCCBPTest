@@ -13,13 +13,13 @@ const MyTrips = () => {
         src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722434678/Vector_j2yqql.png"
         alt="no trips"
       />
-      <h1 className="emptyHead"> No upcoming trips </h1>
+      <h1 className="emptyHead">No upcoming trips</h1>
       <h1 className="emptyPara">
         When you book a trip, you will see your trip details here
       </h1>
       <Link className="link" to="/book-a-new-trip">
         <button type="button" className="emptyBtn">
-          Book a new Trip
+          Book a new trip
         </button>
       </Link>
     </div>

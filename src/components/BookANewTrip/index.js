@@ -135,7 +135,7 @@ class BookANewTrip extends Component {
 
   onChildrenMinus = () => {
     const {childrens} = this.state
-    if (childrens === 0) {
+    if (childrens <= 0) {
       this.setState({
         childrens: 0,
       })
@@ -421,7 +421,7 @@ class BookANewTrip extends Component {
       <>
         <div className="bookTripLgDetailsCont">
           <h1 className="bookTripLgHead">Date Selection</h1>
-          <p className="bookTripLgPara">Enter your Start and End Date</p>
+          <p className="bookTripLgPara">Select your Start and End Date</p>
           <div className="detailsFormLg">
             <div className="bookInputCont">
               <label htmlFor="name" className="bookInputLabel">
@@ -596,7 +596,7 @@ class BookANewTrip extends Component {
       <>
         <div className="bookTripLgDetailsCont">
           <h1 className="bookTripLgHead">Guests</h1>
-          <p className="bookTripLgPara">Select Your Guests</p>
+          <p className="bookTripLgPara">Select your guests</p>
           <div className="detailsFormLg">
             <ul className="guestsUl">
               <li className="guestLi">
@@ -688,10 +688,9 @@ class BookANewTrip extends Component {
           </div>
         </div>
         {/* Space */}
-
         <div className="detailsCont">
           <h1 className="detailsHead">Guests</h1>
-          <p className="detailsPara">Select Your Guests</p>
+          <p className="detailsPara">Select your guests</p>
           <ul className="guestsUl">
             <li className="guestLi">
               <div className="guestTextCont">
@@ -808,7 +807,12 @@ class BookANewTrip extends Component {
           <p className="bookTripLgPara">Select your travel assistance</p>
           <div className="detailsFormLg">
             <div className="travelInputCont">
-              <input id="check" onChange={this.onCheckTravel} type="checkbox" />
+              <input
+                checked={needTravel}
+                id="check"
+                onChange={this.onCheckTravel}
+                type="checkbox"
+              />
               <label htmlFor="check" className="travelLabel">
                 Travel Assistance Needed
               </label>
@@ -849,10 +853,15 @@ class BookANewTrip extends Component {
 
         <div className="detailsCont">
           <h1 className="detailsHead">Travel Assistance</h1>
-          <p className="detailsPara">Select your Travel Assistance.</p>
+          <p className="detailsPara">Select your travel assistance</p>
           <div className="detailsForm">
             <div className="travelInputCont">
-              <input id="check" onChange={this.onCheckTravel} type="checkbox" />
+              <input
+                checked={needTravel}
+                id="check"
+                onChange={this.onCheckTravel}
+                type="checkbox"
+              />
               <label htmlFor="check" className="travelLabel">
                 Travel Assistance Needed
               </label>
@@ -945,33 +954,33 @@ class BookANewTrip extends Component {
                   <div className="detailsFormLg">
                     <ul className="confirmUl">
                       <li className="confirmLi">
-                        <p className="confirmHead">Name:</p>
+                        <p className="confirmHead">Name</p>
                         <p className="confirmPara">{username}</p>
                       </li>
                       <li className="confirmLi">
-                        <p className="confirmHead">Start Location:</p>
+                        <p className="confirmHead">Start Location</p>
                         <p className="confirmPara">{startLocation}</p>
                       </li>
                       <li className="confirmLi">
-                        <p className="confirmHead">End Location:</p>
+                        <p className="confirmHead">End Location</p>
                         <p className="confirmPara">{endLocation}</p>
                       </li>
                       <li className="confirmLi">
-                        <p className="confirmHead">Start Date:</p>
+                        <p className="confirmHead">Start Date</p>
                         <p className="confirmPara">{startDate}</p>
                       </li>
                       <li className="confirmLi">
-                        <p className="confirmHead">End Date:</p>
+                        <p className="confirmHead">End Date</p>
                         <p className="confirmPara">{endDate}</p>
                       </li>
                       <li className="confirmLi">
-                        <p className="confirmHead">Guests:</p>
+                        <p className="confirmHead">Guests</p>
                         <p className="confirmPara">
                           {adults + childrens + infants}
                         </p>
                       </li>
                       <li className="confirmLi">
-                        <p className="confirmHead">Travel Assistance:</p>
+                        <p className="confirmHead">Travel Assistance</p>
                         <p className="confirmPara">{activeTravel}</p>
                       </li>
                     </ul>
@@ -1007,33 +1016,33 @@ class BookANewTrip extends Component {
                   <div className="detailsForm">
                     <ul className="confirmUl">
                       <li className="confirmLi">
-                        <p className="confirmHead">Name:</p>
+                        <p className="confirmHead">Name</p>
                         <p className="confirmPara">{username}</p>
                       </li>
                       <li className="confirmLi">
-                        <p className="confirmHead">Start Location:</p>
+                        <p className="confirmHead">Start Location</p>
                         <p className="confirmPara">{startLocation}</p>
                       </li>
                       <li className="confirmLi">
-                        <p className="confirmHead">End Location:</p>
+                        <p className="confirmHead">End Location</p>
                         <p className="confirmPara">{endLocation}</p>
                       </li>
                       <li className="confirmLi">
-                        <p className="confirmHead">Start Date:</p>
+                        <p className="confirmHead">Start Date</p>
                         <p className="confirmPara">{startDate}</p>
                       </li>
                       <li className="confirmLi">
-                        <p className="confirmHead">End Date:</p>
+                        <p className="confirmHead">End Date</p>
                         <p className="confirmPara">{endDate}</p>
                       </li>
                       <li className="confirmLi">
-                        <p className="confirmHead">Guests:</p>
+                        <p className="confirmHead">Guests</p>
                         <p className="confirmPara">
                           {adults + childrens + infants}
                         </p>
                       </li>
                       <li className="confirmLi">
-                        <p className="confirmHead">Travel Assistance:</p>
+                        <p className="confirmHead">Travel Assistance</p>
                         <p className="confirmPara">{activeTravel}</p>
                       </li>
                     </ul>
@@ -1169,7 +1178,7 @@ class BookANewTrip extends Component {
                     <img
                       className="tickIcon"
                       src="https://assets.ccbp.in/frontend/react-js/travel-trip-steps-successfully-completed-img.png"
-                      alt={eachLgStep.displayText}
+                      alt={`${eachLgStep.displayText}`}
                     />
                   ) : (
                     <p

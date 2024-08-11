@@ -156,6 +156,8 @@
   width: 70px;
   align-self: flex-end;
   border: 0px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 /* Book my trip both lg sm */

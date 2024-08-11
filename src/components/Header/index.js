@@ -48,7 +48,7 @@ const Header = props => {
             <img
               className="homeIcon"
               src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722428124/Vector_xtni4q.svg"
-              alt="my trips"
+              alt="home"
             />
           </Link>
         </button>
@@ -56,7 +56,7 @@ const Header = props => {
           <img
             className="homeIcon"
             src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722428690/logout_wwyuyd.svg"
-            alt="logout"
+            alt="home"
           />
         </button>
       </nav>
