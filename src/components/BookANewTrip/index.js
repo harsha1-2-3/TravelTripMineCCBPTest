@@ -374,8 +374,7 @@ class BookANewTrip extends Component {
     )
   }
 
-  onYourDetailsNext = event => {
-    event.preventDefault()
+  onYourDetailsNext = () => {
     const {username, startLocation, endLocation} = this.state
     let hasErrors = false
 

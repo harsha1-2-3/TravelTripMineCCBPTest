@@ -13,21 +13,19 @@ const Header = props => {
   return (
     <>
       <nav className="headerLg">
-        <Link to="/" className="link">
-          <h1 className="headerLogo">Travel Trip </h1>
-        </Link>
-        <ul className="optionsUl">
-          <li className="optionLi">
-            <Link className="link optionLi" to="/">
-              Home
-            </Link>
-          </li>
-          <li className="optionLi">
-            <Link className="link optionLi" to="/my-trips">
-              My Trips
-            </Link>
-          </li>
-        </ul>
+        <h1 className="headerLogo">
+          <Link to="/" className="link headerLogo">
+            Travel Trip
+          </Link>
+        </h1>
+        <div className="optionsUl">
+          <Link className="link optionLi" to="/">
+            Home
+          </Link>
+          <Link className="link optionLi" to="/my-trips">
+            My Trips
+          </Link>
+        </div>
         <button onClick={onClickLogout} type="button" className="logoutBtn">
           Logout
         </button>
