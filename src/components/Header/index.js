@@ -32,24 +32,20 @@ const Header = props => {
       </nav>
       {/* Space */}
       <nav className="headerSm">
-        <button type="button" className="homeBtn">
-          <Link className="link" to="/">
-            <img
-              className="homeIcon"
-              src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722428016/Icon_bh1cxc.svg"
-              alt="home"
-            />
-          </Link>
-        </button>
-        <button type="button" className="homeBtn">
-          <Link className="link" to="/my-trips">
-            <img
-              className="homeIcon"
-              src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722428124/Vector_xtni4q.svg"
-              alt="home"
-            />
-          </Link>
-        </button>
+        <Link className="link" to="/">
+          <img
+            className="homeIcon"
+            src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722428016/Icon_bh1cxc.svg"
+            alt="home"
+          />
+        </Link>
+        <Link className="link" to="/my-trips">
+          <img
+            className="homeIcon"
+            src="https://res.cloudinary.com/dazwjceuy/image/upload/v1722428124/Vector_xtni4q.svg"
+            alt="home"
+          />
+        </Link>
         <button onClick={onClickLogout} type="button" className="homeBtn">
           <img
             className="homeIcon"

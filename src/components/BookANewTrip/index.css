@@ -1,3 +1,115 @@
+/*  Single Form Succeed */
+.smLgCont {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.smTabsUlSm {
+  list-style-type: none;
+  padding-left: 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.bookTripSidebarUlLg {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  max-height: 600px;
+  min-height: 600px;
+  width: 25vw;
+  margin: 0px;
+  padding: 45px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.formHeadLg {
+  display: none;
+  margin: 0px;
+}
+
+.formHeadSm {
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0px;
+}
+
+.back {
+  background-color: white;
+  margin: 0px;
+  padding: 0px;
+}
+
+.detailsFormLgSm {
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .detailsFormLgSm {
+    margin: 30px;
+    border-radius: 20px;
+    background-color: white;
+    padding: 50px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .smLgCont {
+    background-color: #f1f5f9;
+    padding: 30px;
+    min-height: 90vh;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .back {
+    background-color: #304766;
+    padding: 40px;
+    width: 60vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    margin: 0px;
+    max-height: 600px;
+    min-height: 600px;
+  }
+
+  .smTabsUlSm {
+    display: none;
+  }
+
+  .bookTripSidebarUlLg {
+    display: flex;
+  }
+
+  .formHeadLg {
+    color: #f1f5f9;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .formHeadSm {
+    display: none;
+  }
+}
+
 /* this is for booked needed empty styles */
 .bookedImg {
   height: 80px;
@@ -44,6 +156,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-bottom: 30px;
 }
 
 .travelLabel {
@@ -51,7 +164,7 @@
   font-size: 15px;
   margin-left: 5px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin: 0px;
 }
 
 .travelHead {
@@ -78,6 +191,7 @@
   list-style-type: none;
   padding-left: 0px;
   padding: 0px;
+  min-width: 100%;
 }
 
 .guestLi {
@@ -87,6 +201,7 @@
   justify-content: space-between;
   align-items: center;
   padding-bottom: 20px;
+  min-width: 100%;
 }
 
 .guestTextCont {
@@ -139,6 +254,14 @@
   color: #475569;
   font-size: 20px;
   font-weight: bold;
+}
+@media (min-width: 768px) {
+  .guestLi {
+    width: 100%;
+  }
+  .guestsUl {
+    width: 100%;
+  }
 }
 
 /* this is for date section for different pages forms,btns etc have same css styles so copy all*/
@@ -260,7 +383,7 @@
 }
 
 .bookTripLgHead {
-  color: #f1f5f9;
+  color: #334155;
   font-weight: bold;
   font-size: 20px;
   margin: 0px;
@@ -269,7 +392,7 @@
 }
 
 .bookTripLgPara {
-  color: #f1f5f9;
+  color: #334155;
   font-size: 15px;
   margin: 0px;
   margin-bottom: 15px;
@@ -340,6 +463,7 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
+  width: 100%;
 }
 
 .bookInputLabel {
@@ -357,6 +481,7 @@
   border: 1px solid #64748b;
   border-radius: 5px;
   margin-bottom: 3px;
+  width: 100%;
 }
 
 .bookInputIconContError {
@@ -421,6 +546,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 @media (min-width: 768px) {
@@ -448,10 +574,12 @@
   }
 
   .bookTripLgHead {
+    color: #f1f5f9;
     font-size: 35px;
   }
 
   .bookTripLgPara {
+    color: #f1f5f9;
     font-size: 20px;
   }
 

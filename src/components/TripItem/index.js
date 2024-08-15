@@ -1,4 +1,3 @@
-// -------------- TripItem.js --------------
 import TripContext from '../../context/TripContext'
 import './index.css'
 
