@@ -204,12 +204,12 @@ class BookANewTrip extends Component {
             </p>
           </div>
           <div className="detailsFormLgSm">
-            <div className="formHeadSm">
+            {/*  <div className="formHeadSm">
               <h1 className="bookTripLgHead">Your Details</h1>
               <p className="bookTripLgPara">
                 Enter your name and location details
               </p>
-            </div>
+            </div> */}
             <div className="bookInputCont">
               <label htmlFor="name" className="bookInputLabel">
                 Name
@@ -347,10 +347,10 @@ class BookANewTrip extends Component {
             <p className="bookTripLgPara">Select your Start and End Date</p>
           </div>
           <div className="detailsFormLgSm">
-            <div className="formHeadSm">
+            {/* <div className="formHeadSm">
               <h1 className="bookTripLgHead">Date Selection</h1>
               <p className="bookTripLgPara">Select your Start and End Date</p>
-            </div>
+            </div> */}
             <div className="bookInputCont">
               <label htmlFor="name" className="bookInputLabel">
                 Start Date
@@ -465,10 +465,10 @@ class BookANewTrip extends Component {
             <p className="bookTripLgPara"> Select your guests</p>
           </div>
           <div className="detailsFormLgSm">
-            <div className="formHeadSm">
+            {/* <div className="formHeadSm">
               <h1 className="bookTripLgHead">Guests</h1>
               <p className="bookTripLgPara">Select your guests</p>
-            </div>
+            </div> */}
             <ul className="guestsUl">
               <li className="guestLi">
                 <div className="guestTextCont">
@@ -586,10 +586,10 @@ class BookANewTrip extends Component {
             <p className="bookTripLgPara">Select your travel assistance</p>
           </div>
           <div className="detailsFormLgSm">
-            <div className="formHeadSm">
+            {/*  <div className="formHeadSm">
               <h1 className="bookTripLgHead">Travel Assistance</h1>
               <p className="bookTripLgPara">Select your travel assistance</p>
-            </div>
+            </div> */}
             <div className="travelInputCont">
               <input
                 checked={needTravel}
@@ -690,10 +690,10 @@ class BookANewTrip extends Component {
                     <p className="bookTripLgPara">Confirm your details</p>
                   </div>
                   <div className="detailsFormLgSm">
-                    <div className="formHeadSm">
+                    {/*  <div className="formHeadSm">
                       <h1 className="bookTripLgHead">Confirmation</h1>
                       <p className="bookTripLgPara">Confirm your details</p>
-                    </div>
+                    </div>  */}
                     <ul className="confirmUl">
                       <li className="confirmLi">
                         <p className="confirmHead">Name</p>
@@ -883,6 +883,16 @@ class BookANewTrip extends Component {
   onConfirmCancel = () => {
     this.setState({
       username: '',
+      startLocation: '',
+      endLocation: '',
+      startDate: '',
+      endDate: '',
+      adults: 1,
+      childrens: 0,
+      infants: 0,
+      activeTravel: 'None',
+      needTravel: false,
+      isConfirmed: false,
       activeStepId: stepsList[0].stepId,
       stateStepsList: stepsList.map(step => ({...step, completed: false})),
     })
@@ -906,4 +916,5 @@ class BookANewTrip extends Component {
     )
   }
 }
+
 export default BookANewTrip
