@@ -74,7 +74,7 @@ class BookANewTrip extends Component {
     childrens: 0,
     infants: 0,
     needTravel: false,
-    activeTravel: 'None',
+    activeTravel: 'Car',
     isConfirmed: false,
   }
 
@@ -847,7 +847,7 @@ class BookANewTrip extends Component {
             {stepsList.map(eachSmStep => (
               <li
                 key={`${eachSmStep.stepId}`}
-                className={`smTabLi ${
+                className={`smTabLi ${eachSmStep.completed?'smTabLiCompleted':''} ${
                   activeStepId === eachSmStep.stepId ? 'smTabLiActive' : ''
                 }`}
               >
