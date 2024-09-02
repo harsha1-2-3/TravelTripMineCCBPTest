@@ -443,10 +443,6 @@
   border: 2px solid #2563eb;
 }
 
-.smTabLiCompleted {
-  border:2px solid #3af518; 
-}
-
 .detailsCont {
   display: flex;
   flex-direction: column;
